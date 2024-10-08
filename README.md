@@ -20,6 +20,12 @@ Inserir descrição do Trabalho
     - **View**: Funções relacionadas ao plot e visualização dos dados
 - **Test**: Funções de teste unitário
 
+## Como acessar os datasets?
+Vá até o link: https://www.kaggle.com/datasets/henriquerezermosqur/dados-sus-sinan-dengue-2021-2024.
+Clique em Download e extraia os datasets (são 4, relativos aos anos de 2021, 2022, 2023 e 2024).
+Crie uma pasta chamada 'data' na raiz do repositório e cole os datasets nela.
+
+
 ## Como realizar os testes?
 Executar o seguinte arquivo?
 ```
