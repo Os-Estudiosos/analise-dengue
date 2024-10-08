@@ -18,7 +18,4 @@ def DATASETS() -> list[str]:
         list[str]: Lista dos arquivos
     """
 
-    arquivos = []
-    for i in range(2021, 2025):
-        arquivos.append(os.path.join(DATASET_LOCAL(), f'sinan_dengue_sample_{i}'))
-    return arquivos
+    return os.listdir(DATASET_LOCAL())
