@@ -4,6 +4,7 @@ import os
 import sys
 sys.path.append(os.getcwd())
 from src.config import DATASET_LOCAL, DATASETS
+from src.utils import chi_square_test
 
 def hypotesis3(df: pd.DataFrame) -> None:
     EXAMS = [
@@ -53,30 +54,4 @@ def hypotesis3(df: pd.DataFrame) -> None:
     #         print(exam_symptom_table)
     #         print(exam_symptom_table[1.0])
 
-    exam_symptom_table = pd.crosstab(new_df[EXAMS[0]], new_df[SYMPTOMS[0]], margins=True)
-
-    frequency_table = exam_symptom_table.copy()
-    frequency_table[1.0] = exam_symptom_table[1.0]/exam_symptom_table['All']
-    frequency_table[2.0] = exam_symptom_table[2.0]/exam_symptom_table['All']
-    frequency_table['All'] = frequency_table[1.0]+frequency_table[2.0]
-
-    expected_values_table = exam_symptom_table.copy()
-
-    expected_values_table[1.0] = frequency_table.loc['All', 1.0] * exam_symptom_table['All']
-    expected_values_table[2.0] = frequency_table.loc['All', 2.0] * exam_symptom_table['All']
-    expected_values_table['All'] = expected_values_table[1.0] + expected_values_table[2.0]
-
-    difference_table = exam_symptom_table.copy()
-
-    difference_table[1.0] = exam_symptom_table[1.0]-expected_values_table[1.0]
-    difference_table[2.0] = exam_symptom_table[2.0]-expected_values_table[2.0]
-    difference_table.drop('All', axis=1, inplace=True)
-    difference_table.drop('All', inplace=True)
-
-    print(exam_symptom_table)
-    print(frequency_table)
-    print(expected_values_table)
-    print(difference_table)
-
-    # viral_exam_1 = pd.crosstab(df[EXAMS[0]], df[SYPTOMS[1]])
-    # print(viral_exam_1)
+    chi_square_test(new_df[EXAMS[0]], new_df[SYMPTOMS[0]])
