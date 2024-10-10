@@ -7,12 +7,13 @@ sys.path.append(os.getcwd())
 
 from src.utils import chi_square_test
 
-np.random.seed(0)  # Setando a seed para 0 para não afetar os testes unitários
 
 class ChiSquareTest(unittest.TestCase):
     def test_working_dataframe(self):
         """Testando se está retornando os valores de Qui Quadrado corretos
         """
+        np.random.seed(0)  # Setando a seed para 0 para não afetar os testes unitários
+
         df1 = pd.DataFrame({'var1': np.random.rand(100), 'var2': np.random.rand(100)})
         df2 = pd.DataFrame({'var1': np.random.rand(100), 'var2': np.random.rand(100)})
         df3 = pd.DataFrame({'var1': np.random.rand(100), 'var2': np.random.rand(100)})
