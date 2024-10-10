@@ -77,3 +77,31 @@ def crammer_V(qualitative_variable_1: pd.Series, qualitative_variable_2: pd.Seri
     s = len(cross_table.columns)-1
 
     return sqrt((qui_quadrado)/(n*min(r-1, s-1)))
+
+
+def contigency_coefficient(qualitative_variable_1: pd.Series, qualitative_variable_2: pd.Series) -> float:
+    """Função que calcula o coeficiente de contigência
+
+    Args:
+        qualitative_variable_1 (pd.Series): Série de variável qualitativa 1
+        qualitative_variable_2 (pd.Series): Série de variável qualitativa 2
+
+    Raises:
+        TypeError: Levanta quando os argumentos passados não são séries Pandas
+
+    Returns:
+        float: Coeficiente de Contigência
+    """
+    # Checando os tipos das variáveis
+    if not isinstance(qualitative_variable_1, pd.Series) or not isinstance(qualitative_variable_2, pd.Series):
+        raise TypeError("Os argumentos passados não são Séries Pandas")
+    
+    qui_quadrado = chi_square_test(qualitative_variable_1, qualitative_variable_2)
+
+    cross_table = pd.crosstab(qualitative_variable_1, qualitative_variable_2, margins=True)
+
+    n = cross_table.loc['All', 'All']
+    r = len(cross_table.index)-1
+    s = len(cross_table.columns)-1
+
+    return sqrt(qui_quadrado/(qui_quadrado+n))
