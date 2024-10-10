@@ -1,6 +1,7 @@
 """Módulo que contém funções úteis, mas que não tem classificação para estar em outra pasta"""
 import pandas as pd
 import numpy as np
+from math import sqrt
 
 def chi_square_test(qualitative_variable_1: pd.Series, qualitative_variable_2: pd.Series) -> float:
     """Essa função recebe duas séries pandas (De variáveis qualitativas) e realiza o teste do Qui-Quadrado
@@ -17,7 +18,7 @@ def chi_square_test(qualitative_variable_1: pd.Series, qualitative_variable_2: p
     """
     # Checando os tipos das variáveis
     if not isinstance(qualitative_variable_1, pd.Series) or not isinstance(qualitative_variable_2, pd.Series):
-        raise TypeError    
+        raise TypeError("Os argumentos passados não são Séries Pandas")
 
     cross_table = pd.crosstab(qualitative_variable_1, qualitative_variable_2, margins=True)
 
@@ -49,3 +50,30 @@ def chi_square_test(qualitative_variable_1: pd.Series, qualitative_variable_2: p
         qui_quadrado += row.sum()
 
     return qui_quadrado
+
+
+def crammer_V(qualitative_variable_1: pd.Series, qualitative_variable_2: pd.Series) -> float:
+    """Função que calcula V de Crammer
+
+    Args:
+        qualitative_variable_1 (pd.Series): Série da variável qualitativa
+        qualitative_variable_2 (pd.Series): Série da variável qualitativa
+
+    Raises:
+        TypeError: Levanta esse erro se não for passadas séries pandas como argumentos
+
+    Returns:
+        float: V de Crammer
+    """
+    if not isinstance(qualitative_variable_1, pd.Series) or not isinstance(qualitative_variable_2, pd.Series):
+        raise TypeError
+    
+    qui_quadrado = chi_square_test(qualitative_variable_1, qualitative_variable_2)
+
+    cross_table = pd.crosstab(qualitative_variable_1, qualitative_variable_2, margins=True)
+
+    n = cross_table.loc['All', 'All']
+    r = len(cross_table.index)-1
+    s = len(cross_table.columns)-1
+
+    return sqrt((qui_quadrado)/(n*min(r-1, s-1)))
