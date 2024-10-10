@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import seaborn as sns
+import matplotlib.pyplot as plt
 
 # Expandir o DataFrame para a largura total da tela
 pd.set_option('display.expand_frame_repr', False)
@@ -29,14 +30,6 @@ def hypothesis4(df, df2_agriculture):
     df['ID_OCUPA_N'] = df['ID_OCUPA_N'].replace(['NA', 'na', ''], np.nan)
     df = df[df['ID_OCUPA_N'].notnull()]
 
-    # Usando loc[] para evitar o SettingWithCopyWarning
-    # df.loc[df['DOENCA_TRA'].notnull(), 'DOENCA_TRA'] = df['DOENCA_TRA'].replace(['NA', 'na', ''], np.nan)
-    # df = df[df['DOENCA_TRA'].notnull()]
-
-    # OBS: a intersecção de valores válidos das colunas DOENCA_TRA E ID_OCUPA_N é nula!!
-    # Portanto, não será possível verificar se existe indícios de relação entre pessoas
-    # que ocupam o meio rural pegaram a doença no trabalho. 
-
     count_occup_freq = df['ID_OCUPA_N'].value_counts()
 
     total = count_occup_freq.sum()
@@ -44,15 +37,9 @@ def hypothesis4(df, df2_agriculture):
 
     reasons_sum = reasons.sum()  
     reasons_average = reasons_sum / len(reasons)
-
     
-
-
-
-
     print(reasons_average)    
-    
-    
+    # result print: 0.00042426813746287653
 
     # Cria uma lista com as strings dos códigos de ocupações rurais
     df2_agriculture_ids = df2_agriculture['CODIGO']
@@ -61,8 +48,22 @@ def hypothesis4(df, df2_agriculture):
         str_cod = "" + str(cod) + ""
         list_codes_rural.append(str_cod)
 
+    df_filtered_codes_rural = df[df['ID_OCUPA_N'].isin(list_codes_rural)]
+    count_occup_freq_rural = df_filtered_codes_rural['ID_OCUPA_N'].value_counts()
+    
+    total_rural = count_occup_freq_rural.sum()
+    reasons_rural = count_occup_freq_rural / total
+
+    reasons_rural_sum = reasons_rural.sum()
+    reasons_rural_averge = reasons_rural_sum / len(reasons_rural)
+
+    print(reasons_rural_averge)
+    # result print: 0.0023231599510215237
+
 
 def test_plot_temp():
+
+
     pass
     
 
