@@ -4,21 +4,25 @@ import os
 import sys
 sys.path.append(os.getcwd())
 from src.config import DATASET_LOCAL
-from utils.statistic import top_3_counts_numpy
+from src.utils.statistic import top_3_counts_numpy
 
 
-def analyze_case_open_days_v2(df, date_limit, period='before'):
-    """
-    Analyzes the difference in days for each case and returns statistical information 
+def analyze_case_open_days_v2(df: pd.DataFrame, date_limit: str, period:str='before') -> dict:
+    """Analyzes the difference in days for each case and returns statistical information 
     for cases either before or after a given date limit (in this case, consider the day of the end).
-    
-    Parameters:
-    df (pd.DataFrame): The DataFrame containing the data.
-    date_limit (str): The date limit in the format 'YYYY-MM-DD'.
-    period (str): Defines whether to analyze 'before' or 'after' the date limit. Default is 'before'.
-    
+
+    Args:
+        df (pd.DataFrame): The DataFrame containing the data.
+        date_limit (str): The date limit in the format 'YYYY-MM-DD'
+        period (str, optional): Defines whether to analyze 'before' or 'after' the date limit. Default is 'before'.
+
+    Raises:
+        ValueError: Raises if required columns are missing
+        ValueError: Raises if the date is at an invalid format
+        ValueError: Raises if the period is not 'before' or 'after'
+
     Returns:
-    dict: A dictionary containing the calculated statistics.
+        dict: A dictionary containing the calculated statistics.
     """
     
     # Check if required columns are present
@@ -70,7 +74,7 @@ def analyze_case_open_days_v2(df, date_limit, period='before'):
     return stats
 
 
-def hypothesis3(df: pd.DataFrame):
+def hypothesis5(df: pd.DataFrame):
     # Set a list with the important dates
     columns_list = ['DT_NOTIFIC', 'DT_SIN_PRI', 'DT_INVEST', 'DT_CHIK_S1', 'DT_CHIK_S2', 'DT_PRNT', 
                     'DT_SORO', 'DT_NS1', 'DT_VIRAL', 'DT_PCR', 'DT_INTERNA', 'DT_OBITO', 

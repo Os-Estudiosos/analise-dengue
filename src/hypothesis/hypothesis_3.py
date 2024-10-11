@@ -7,7 +7,7 @@ sys.path.append(os.getcwd())
 from src.config import DATASET_LOCAL, DATASETS
 from src.utils import chi_square_test, contigency_coefficient
 
-def hypotesis3(df: pd.DataFrame) -> None:
+def hypothesis3(df: pd.DataFrame) -> None:
     EXAMS = [
         "RESUL_VI_N",  # RESULTADO DO EXAME VIRAL
         "RESUL_NS1",  # RESULTADO DO EXAME NS1
