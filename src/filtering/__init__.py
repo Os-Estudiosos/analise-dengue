@@ -16,6 +16,8 @@ def filter_dataset(df: pd.DataFrame) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The filtered dataframe
     """
+    print('está sendo processado!')
+    
     for column in REQUIRED_COLUMNS:
         if column not in df.columns:
             raise ValueError('The passed dataframe doesn\'t have all the required columns mentioned in the config')
