@@ -9,7 +9,7 @@ from matplotlib.colors import ListedColormap
 
 '''
 First, we will plot the occurrency of dengue cases for each uf (total).
-Then we will analyze the main symptons (and the least symptons) and plot a geoplot to see the occurrency of them by city (total).
+Then we will analyze the main 3 symptoms (and the least 3 symptoms) and plot a geoplot to see the occurrency of them by uf (total).
 '''
 
 
@@ -65,33 +65,33 @@ def processing_total_dataframe(filepath:str, usecols:list, chunksize:int=1) -> p
     return df_total
 
 
-def main_least_symptons(filepath:str, symptons:list) -> list:
+def main_least_symptons(filepath:str, symptoms:list) -> list:
     """
-    Function that will determinate the principals dengue symptons
+    Function that will determinate the principals dengue symptoms
 
     Args:
         filepath (str): Add the file path
-        symptons (list): Add the symptons list to analyze
+        symptoms (list): Add the symptoms list to analyze
 
     Returns:
         list: Output the main five in list
 
-    >>> main_symptons(main_symptons(filepath="analise-dengue/data/sinan_dengue_sample_total.csv", symptons=["FEBRE","MIALGIA","CEFALEIA","EXANTEMA","VOMITO","NAUSEA","DOR_COSTAS","CONJUNTVIT","ARTRITE","ARTRALGIA","PETEQUIA_N","LEUCOPENIA","DOR_RETRO","DIABETES","HEMATOLOG","HEPATOPAT","RENAL","HIPERTENSA","ACIDO_PEPT","AUTO_IMUNE"])
+    >>> main_symptons(main_symptons(filepath="analise-dengue/data/sinan_dengue_sample_total.csv", symptoms=["FEBRE","MIALGIA","CEFALEIA","EXANTEMA","VOMITO","NAUSEA","DOR_COSTAS","CONJUNTVIT","ARTRITE","ARTRALGIA","PETEQUIA_N","LEUCOPENIA","DOR_RETRO","DIABETES","HEMATOLOG","HEPATOPAT","RENAL","HIPERTENSA","ACIDO_PEPT","AUTO_IMUNE"])
     ['FEBRE', 'MIALGIA', 'CEFALEIA', 'EXANTEMA', 'VOMITO']
     """
 
     # Use the function to process the total dataframe 
-    df = processing_total_dataframe(filepath=filepath, usecols=symptons, chunksize=30000)
+    df = processing_total_dataframe(filepath=filepath, usecols=symptoms, chunksize=30000)
 
     # Define a dictionary to keep the sympton and the total cases
     means = {}
 
-    # Iterate to all symptons and do a sum 
-    for sympton in symptons:
+    # Iterate to all symptoms and do a sum 
+    for sympton in symptoms:
         sum = np.sum((df[sympton] == 1) | (df[sympton] == 1.0))  # Handle both int and float cases
         means[sympton] = sum
     
-    # Sort to find the main five symptons
+    # Sort to find the main five symptoms
     means_order = {k: v for k, v in sorted(means.items(), key=lambda item: item[1], reverse=True)}
 
     # Transforms all the keys to list and keep the first five
@@ -165,9 +165,9 @@ def count_dengue_cases_by_state(filepath:str, columns:list) -> pd.DataFrame:
     return cases_by_state
 
 
-# Defining all the symptons in the dataframe and finding the main 5 and the least 5 symptons
-symptons = ["FEBRE","MIALGIA","CEFALEIA","EXANTEMA","VOMITO","NAUSEA","DOR_COSTAS","CONJUNTVIT","ARTRITE","ARTRALGIA","PETEQUIA_N","LEUCOPENIA","DOR_RETRO","DIABETES","HEMATOLOG","HEPATOPAT","RENAL","HIPERTENSA","ACIDO_PEPT","AUTO_IMUNE"]
-main_least_symptons = main_least_symptons(filepath="analise-dengue/data/sinan_dengue_sample_total.csv", symptons=symptons)
+# Defining all the symptoms in the dataframe and finding the main 5 and the least 5 symptoms
+symptoms = ["FEBRE","MIALGIA","CEFALEIA","EXANTEMA","VOMITO","NAUSEA","DOR_COSTAS","CONJUNTVIT","ARTRITE","ARTRALGIA","PETEQUIA_N","LEUCOPENIA","DOR_RETRO","DIABETES","HEMATOLOG","HEPATOPAT","RENAL","HIPERTENSA","ACIDO_PEPT","AUTO_IMUNE"]
+main_least_symptons = main_least_symptons(filepath="analise-dengue/data/sinan_dengue_sample_total.csv", symptoms=symptoms)
 main_symptons = main_least_symptons[0]
 least_symptons = main_least_symptons[1]
 
@@ -210,4 +210,4 @@ gplt.choropleth(
 ax.set_title("Distribuição de Casos de Dengue no Brasil (2021-2024)", fontsize=18)
 plt.show()
 
-# Plotting the geoplots (total & each main/least symptons)
+# Plotting the geoplots (total & each main/least symptoms)

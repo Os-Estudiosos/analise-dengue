@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 
 '''
-We will plot the total amount of dengue cases (when the symptons appeared) divided by month to give an idea which part of the year has the most cases (each year and total).
+We will plot the total amount of dengue cases (when the symptoms appeared) divided by month to give an idea which part of the year has the most cases (each year and total).
 Then, we will plot a histplot with kde to observe the distribution type (each year and total).
 '''
 
@@ -101,7 +101,7 @@ df3 = processing_total_dataframe("analise-dengue/data/sinan_dengue_sample_2023.c
 df4 = processing_total_dataframe("analise-dengue/data/sinan_dengue_sample_2024.csv", usecols=colums_analyze, chunksize=20000)
 df5 = processing_total_dataframe("analise-dengue/data/sinan_dengue_sample_total.csv", usecols=colums_analyze, chunksize=30000)
 
-# Extracting the month from 'DT_SIN_PRI' (begin of the symptons) and adding it as a new column 'MESES' in each dataframe
+# Extracting the month from 'DT_SIN_PRI' (begin of the symptoms) and adding it as a new column 'MESES' in each dataframe
 df1["MESES"] = extract_month(df1, "DT_SIN_PRI")
 df2["MESES"] = extract_month(df2, "DT_SIN_PRI")
 df3["MESES"] = extract_month(df3, "DT_SIN_PRI")
