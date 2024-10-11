@@ -1,6 +1,7 @@
 import pandas as pd
 import itertools
 
+MAXSETSIZE = 8
 
 def cleanDataFrame(df):
     columns = "VOMITO FEBRE MIALGIA CEFALEIA EXANTEMA NAUSEA DOR_COSTAS CONJUNTVIT ARTRITE ARTRALGIA PETEQUIA_N LEUCOPENIA DOR_RETRO HEMATOLOG HEPATOPAT RENAL HIPERTENSA HOSPITALIZ EVOLUCAO".split(' ')
@@ -16,35 +17,6 @@ def cleanDataFrame(df):
 
 
 def doIT(df, values):
-    name = df.columns[-1]
-    symptoms = "VOMITO FEBRE MIALGIA CEFALEIA EXANTEMA NAUSEA DOR_COSTAS CONJUNTVIT ARTRITE ARTRALGIA PETEQUIA_N LEUCOPENIA DOR_RETRO HEMATOLOG HEPATOPAT RENAL HIPERTENSA".split(' ')
-    
-    print(len(symptoms))
-    setsPoints = []
-
-    for n in range(3):
-        dicio = {}
-        subsets = list(itertools.combinations(symptoms, n+1))
-        for set in subsets:
-            dicio[set] = 0
-        setsPoints.append(dicio)
-
-    for index, row in df.iterrows():
-        if row[name] not in values:
-            continue
-
-        positive = []
-        for symptom in symptoms:
-            if (row[symptom] == 1):
-                positive.append(symptom)        
-
-        for n in range(3):
-            if len(positive) < n :
-                continue
-
-            subsets = list(itertools.combinations(positive, n+1))
-            for set in subsets:
-                setsPoints[n][set] += 1
     
     symptoms_dict = {
         "VOMITO": "Vomiting",
@@ -67,6 +39,36 @@ def doIT(df, values):
         "ACIDO_PEPT": "Peptic Acid"
     }
     
+    name = df.columns[-1]
+    symptoms = "VOMITO FEBRE MIALGIA CEFALEIA EXANTEMA NAUSEA DOR_COSTAS CONJUNTVIT ARTRITE ARTRALGIA PETEQUIA_N LEUCOPENIA DOR_RETRO HEMATOLOG HEPATOPAT RENAL HIPERTENSA".split(' ')
+    
+    
+    setsPoints = []
+
+    for n in range(MAXSETSIZE):
+        dicio = {}
+        subsets = list(itertools.combinations(symptoms, n+1))
+        for set in subsets:
+            dicio[set] = 0
+        setsPoints.append(dicio)
+
+    for index, row in df.iterrows():
+        if row[name] not in values:
+            continue
+
+        positive = []
+        for symptom in symptoms:
+            if (row[symptom] == 1):
+                positive.append(symptom)        
+
+        for n in range(MAXSETSIZE):
+            if len(positive) < n :
+                continue
+
+            subsets = list(itertools.combinations(positive, n+1))
+            for set in subsets:
+                setsPoints[n][set] += 1
+    
     final = []
     for dicio in setsPoints:
         diTemp = {}
@@ -76,17 +78,28 @@ def doIT(df, values):
                 l.append(symptoms_dict[symptom])
             diTemp[' | '.join(l)] = value
         final.append(diTemp)    
-        
 
-
-    for n in range(3):
-        sorted_dict = dict(sorted(final[n].items(), key=lambda item: item[1]))
-        for set,value in sorted_dict.items():
+    for n in range(MAXSETSIZE):
+        final[n] = dict(sorted(final[n].items(), key=lambda item: item[1]))
+        for set,value in final[n].items():
             print(f"{set} = {value} ", end = '\n\n')          
-        
+    return final
 
-hospitaliz = pd.read_csv('hospitaliz.csv')
+#hospitaliz = pd.read_csv('hospitaliz.csv')
 evolucao = pd.read_csv('evolucao.csv')
-doIT(hospitaliz,[1])
-print('|'*60)
-doIT(evolucao,[2])
+#hospitalizFinal = doIT(hospitaliz,[1])
+
+evolucaoFinal = doIT(evolucao,[2])
+print()
+print("The symptoms that kills the most : ")
+for n in range(MAXSETSIZE):
+    print(n+1,end = '\n\n')
+    for i in range(5):
+        print(list(evolucaoFinal[n].items())[-(i+1)])
+      
+print("\n\n")
+print("The symptoms that kills the less : ")
+for n in range(MAXSETSIZE):
+    print(n+1,end = '\n\n')
+    for i in range(5):
+        print(list(evolucaoFinal[n].items())[(i)])
