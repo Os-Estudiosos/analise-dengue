@@ -4,6 +4,7 @@ import sys
 sys.path.append(os.getcwd())
 from src.config import REQUIRED_COLUMNS
 
+
 def filter_dataset(df: pd.DataFrame) -> pd.DataFrame:
     """Function responsible for filtering the complete dataframe and get only the required columns mentioned in the CONFIG file
     
@@ -16,10 +17,12 @@ def filter_dataset(df: pd.DataFrame) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The filtered dataframe
     """
-    print('está sendo processado!')
-    
+    not_in_columns = []
     for column in REQUIRED_COLUMNS:
         if column not in df.columns:
-            raise ValueError('The passed dataframe doesn\'t have all the required columns mentioned in the config')
+            not_in_columns.append(column)
+    
+    if len(not_in_columns) > 0:
+        raise ValueError(f'The passed dataframe doesn\'t have all the required columns mentioned in the config: {not_in_columns}')
     
     return df[REQUIRED_COLUMNS]
