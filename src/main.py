@@ -1,20 +1,20 @@
 import pandas as pd
 import numpy as np
 import os
-import sys
-sys.path.append(os.getcwd())
+from filtering import filter_dataset
 from config import DATASET_LOCAL
 
 
 def main():
+    # Lendo o DATASET
+    df = pd.read_csv(os.path.join(DATASET_LOCAL(), 'sinan_dengue_sample_total.csv'))
+
     # Função que limpa para ter apenas as colunas necessárias para as hipóteses
-    ...
+    df = filter_dataset(df)
+    df.to_csv(os.path.join(DATASET_LOCAL(), 'sinan_dengue_filtrado.csv'))
 
     # Função que concatena todos os datasets
     ...
-
-    # Lendo o DATASET
-    DATASET = pd.read_csv(os.path.join(DATASET_LOCAL(), 'sinan_dengue_sample_total.csv'))
 
     # Limpando para ter apenas as colunas necessárias:
     ...
