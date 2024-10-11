@@ -7,7 +7,7 @@ from src.config import DATASET_LOCAL
 from src.utils.statistic import top_3_counts_numpy
 
 
-def analyze_case_open_days_v2(df: pd.DataFrame, date_limit: str, period:str='before') -> dict:
+def analyze_case_days_open(df: pd.DataFrame, date_limit: str, period:str='before') -> dict:
     """Analyzes the difference in days for each case and returns statistical information 
     for cases either before or after a given date limit (in this case, consider the day of the end).
 
@@ -75,26 +75,42 @@ def analyze_case_open_days_v2(df: pd.DataFrame, date_limit: str, period:str='bef
 
 
 def hypothesis5(df: pd.DataFrame):
-    # Set a list with the important dates
     columns_list = ['DT_NOTIFIC', 'DT_SIN_PRI', 'DT_INVEST', 'DT_CHIK_S1', 'DT_CHIK_S2', 'DT_PRNT', 
                     'DT_SORO', 'DT_NS1', 'DT_VIRAL', 'DT_PCR', 'DT_INTERNA', 'DT_OBITO', 
                     'DT_ENCERRA', 'DT_ALRM', 'DT_GRAV', 'DT_DIGITA']
 
     df_date = df[columns_list]
 
-    print(analyze_case_open_days_v2(df_date, '2022-11-30', period='after'))
-    print(analyze_case_open_days_v2(df_date, '2022-11-30', period='before'))
+    #take the data
+    #print(analyze_case_days_open(df_date, '2022-11-30', period='after'))
+    #print(analyze_case_days_open(df_date, '2022-11-30', period='before'))
 
-    # List of columns to check
+    # List of columns to check and count(exams)
     columns = ['DT_CHIK_S1', 'DT_CHIK_S2', 'DT_SORO', 'DT_NS1', 'DT_PRNT', 'DT_VIRAL', 'DT_PCR', 'DT_ALRM', 'DT_GRAV']
 
-    # Using the same mock data for demonstration
+    # Using the data to calculate the 3 most taken
     top_3_results_numpy = top_3_counts_numpy(df_date, columns)
-    print(top_3_results_numpy)
+    #print(top_3_results_numpy)
 
     # With the most taken exam, we do the analysis: Is there a greater difference in days between the most taken exam (dengue) during the post-COVID and COVID periods?
     # Doing the same analytics, but now just with the people who did the most taken exam
     df_filtered_to_ns1 = df_date.dropna(subset=['DT_NS1'])
+
+    #calculate to confirmate
     rows_did_ns1 = df_filtered_to_ns1.shape[0]
-    print(analyze_case_open_days_v2(df_filtered_to_ns1, '2022-11-30', period='before'))
-    print(analyze_case_open_days_v2(df_filtered_to_ns1, '2022-11-30', period='after'))
+
+    #take the data
+    #print(analyze_case_days_open(df_filtered_to_ns1, '2022-11-30', period='before'))
+    #print(analyze_case_days_open(df_filtered_to_ns1, '2022-11-30', period='after'))
+
+    df['number of days case open'] = (pd.to_datetime(df['DT_ENCERRA']) - pd.to_datetime(df['DT_NOTIFIC'])).dt.days
+    print('df para plotagem - geral - data considerada: 30/11/2022')
+    df_to_plot = df[['number of days case open', 'DT_NOTIFIC']]
+    print((df_to_plot.head()))
+
+    print('df para plotagem - apenas casos de ns1 - data considerada: 30/11/2022')
+    df_filtered_to_ns1['number of days case open'] = (pd.to_datetime(df['DT_ENCERRA']) - pd.to_datetime(df['DT_NOTIFIC'])).dt.days
+    df_filtered_to_ns1_plot = df_filtered_to_ns1[['DT_NS1', 'number of days case open']]
+
+    #returns the dataframe to plot with seaborn
+    return df_to_plot, df_filtered_to_ns1_plot
