@@ -2,9 +2,10 @@ import pandas as pd
 import numpy as np
 import os
 import sys
+import concurrent.futures
 sys.path.append(os.getcwd())
 from src.config import DATASET_LOCAL, DATASETS
-from src.utils import chi_square_test
+from src.utils import chi_square_test, contigency_coefficient
 
 def hypotesis3(df: pd.DataFrame) -> None:
     EXAMS = [
@@ -39,19 +40,31 @@ def hypotesis3(df: pd.DataFrame) -> None:
     ]
 
     # # Retira apenas as colunas necessárias
-    # new_dataset = df[COLUMNS_NEEDED]
-    # new_dataset.to_csv(f'{DATASET_LOCAL()}/sinan_dengue_sintomas_e_exames.csv')
-    new_df = df
+    new_df = pd.concat(df[EXAMS], df[SYMPTOMS])
+
+    print(new_df.head())
 
     # Vou fazer tabelas e medir o Coeficiente de Contigência entre cada exame e cada teste,
     # assim eu filtro aqueles que tem relação com os que não tem nenhuma
-    # Exame Viral
 
-    # for exam in EXAMS:
-    #     for symptom in SYMPTOMS:
-    #         print('-'*50)
-    #         exam_symptom_table = pd.crosstab(df[exam], df[symptom])
-    #         print(exam_symptom_table)
-    #         print(exam_symptom_table[1.0])
+    def mostrar_qui_quadrado(exam, symptom):
+        print(f"Teste entre {exam} e {symptom}: {contigency_coefficient(new_df[exam], new_df[symptom])}")
 
-    chi_square_test(new_df[EXAMS[0]], new_df[SYMPTOMS[0]])
+    with concurrent.futures.ThreadPoolExecutor() as executor:  # Estrutura do multithreading
+        threads_running: list[concurrent.futures.Future] = []
+
+        for exam in EXAMS:
+            for symptom in SYMPTOMS:
+                threads_running.append(
+                    executor.submit(
+                        mostrar_qui_quadrado,
+                        exam,
+                        symptom
+                    )
+                )
+
+        concurrent.futures.wait(threads_running)  # Esperando todas as tasks executarem
+
+        # for pending_thread in threads_running:
+        #     result = pending_thread.result()
+        #     print(result)

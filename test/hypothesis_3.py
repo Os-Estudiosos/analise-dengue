@@ -7,7 +7,7 @@ from src.hypothesis.hypothesis_3 import hypotesis3
 from src.config import DATASETS, DATASET_LOCAL
 
 def main():
-    dataset = pd.read_csv(os.path.join(DATASET_LOCAL(), 'sinan_dengue_sintomas_e_exames.csv'), low_memory=False)
+    dataset = pd.read_csv(os.path.join(DATASET_LOCAL(), DATASETS()[0]), low_memory=False)
     hypotesis3(dataset)
 
 

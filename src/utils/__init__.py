@@ -33,11 +33,11 @@ def chi_square_test(qualitative_variable_1: pd.Series, qualitative_variable_2: p
     
     # Colocando o valor esperado em cada elemento ij da tabela
     for row in cross_table.index:
-        for column in cross_table.columns:
+        for i_column, column in enumerate(cross_table.columns):
             if column == 'All':
                 expected_values.loc[row, column] = expected_values.loc[row].sum()
                 continue
-            expected_values.loc[row, column] = cross_table.loc[row, 'All']*frequency_row[0, column] 
+            expected_values.loc[row, column] = cross_table.loc[row, 'All']*frequency_row[0, i_column] 
 
     # Criando a tabela das diferenças entre os valores
     difference_table = pd.DataFrame(index=cross_table.index, columns=cross_table.columns, dtype=pd.Float64Dtype())
