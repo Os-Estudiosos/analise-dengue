@@ -5,7 +5,7 @@ import os
 import sys
 sys.path.append(os.getcwd())
 
-from src.utils import chi_square_test, crammer_V, contigency_coefficient
+from src.utils.statistic import chi_square_test, crammer_V, contigency_coefficient
 
 
 def discretizar(df):
@@ -54,7 +54,6 @@ class ChiSquareTest(unittest.TestCase):
         # Coeficiente de Contingência: 0.2747
         self.assertAlmostEqual(chi_square_test(df4['var1'], df4['var2']), 8.16, delta=0.01)
     
-
     def test_passing_wrong_argument_type(self):
         """Testa a função quando se passa os argumetos errados
         """
