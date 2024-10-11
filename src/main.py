@@ -7,6 +7,12 @@ from config import DATASET_LOCAL
 
 
 def main():
+    # Função que limpa para ter apenas as colunas necessárias para as hipóteses
+    ...
+
+    # Função que concatena todos os datasets
+    ...
+
     # Lendo o DATASET
     DATASET = pd.read_csv(os.path.join(DATASET_LOCAL(), 'sinan_dengue_sample_total.csv'))
 
