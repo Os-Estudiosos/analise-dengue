@@ -20,17 +20,28 @@ def main():
     df = processing_total_dataset()
 
     # Testing each hypothesis
-    print('Analisando (Hipótese 1)')
-    hypothesis1(df)
+    hypothesis_list: list[typing.Callable] = [
+        hypothesis1,
+        hypothesis3,
+        hypothesis4,
+        hypothesis5
+    ]
 
-    print('Analisando (Hipótese 3)')
-    hypothesis3(df)
+    hypothesis_results = {
+    }
 
-    print('Analisando (Hipótese 4)')
-    hypothesis_4_return = hypothesis4(df)
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        hypothesis_running: dict[str, concurrent.futures.Future] = {}
 
-    print('Analisando (Hipótese 5)')
-    hypothesis_5_return = hypothesis5(df)
+        for i, hypothesis in enumerate(hypothesis_list):
+            hypothesis_running[f'hypothesis{i}'] = executor.submit( hypothesis,  df )
+        
+        concurrent.futures.wait(hypothesis_running)
+
+        for hyp_name, hypothesis_finished in hypothesis_running.values():
+            hypothesis_results[hyp_name] = hypothesis_finished.result()
+        
+        print(hypothesis_results)            
 
 
 if __name__ == '__main__':
