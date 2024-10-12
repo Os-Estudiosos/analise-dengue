@@ -6,8 +6,7 @@ sys.path.append(os.getcwd())
 from src.config import DATASET_LOCAL
 from src.utils.statistic import top_3_counts_numpy
 
-
-def analyze_case_days_open(df: pd.DataFrame, date_limit: str, period:str='before') -> dict:
+def analyze_case_days_open(df: pd.DataFrame, date_limit: str, period: str = 'before') -> dict:
     """Analyzes the difference in days for each case and returns statistical information 
     for cases either before or after a given date limit (in this case, consider the day of the end).
 
@@ -30,6 +29,16 @@ def analyze_case_days_open(df: pd.DataFrame, date_limit: str, period:str='before
     for col in required_columns:
         if col not in df.columns:
             raise ValueError(f"Missing required column: {col}")
+
+    # Handle duplicate index if any
+    if df.index.duplicated().any():
+        df = df[~df.index.duplicated(keep='first')]
+
+    # Ensure column names are unique
+    df = df.loc[:, ~df.columns.duplicated()]
+
+    # Reset index to avoid issues with index duplication
+    df = df.reset_index(drop=True)
 
     # Convert date_limit to datetime and check validity
     try:
@@ -81,33 +90,33 @@ def hypothesis5(df: pd.DataFrame):
 
     df_date = df[columns_list]
 
-    #take the data
-    #print(analyze_case_days_open(df_date, '2022-11-30', period='after'))
-    #print(analyze_case_days_open(df_date, '2022-11-30', period='before'))
+    # Handle duplicate index if any
+    if df_date.index.duplicated().any():
+        df_date = df_date[~df_date.index.duplicated(keep='first')]
 
-    # List of columns to check and count(exams)
+    # Ensure column names are unique
+    df_date = df_date.loc[:, ~df_date.columns.duplicated()]
+
+    # Reset index to avoid issues with index duplication
+    df_date = df_date.reset_index(drop=True)
+
+    # List of columns to check and count (exams)
     columns = ['DT_CHIK_S1', 'DT_CHIK_S2', 'DT_SORO', 'DT_NS1', 'DT_PRNT', 'DT_VIRAL', 'DT_PCR', 'DT_ALRM', 'DT_GRAV']
 
     # Using the data to calculate the 3 most taken
     top_3_results_numpy = top_3_counts_numpy(df_date, columns)
-    #print(top_3_results_numpy)
 
-    # With the most taken exam, we do the analysis: Is there a greater difference in days between the most taken exam (dengue) during the post-COVID and COVID periods?
-    # Doing the same analytics, but now just with the people who did the most taken exam
+    # Filter rows where DT_NS1 is not NaN
     df_filtered_to_ns1 = df_date.dropna(subset=['DT_NS1'])
 
-    #calculate to confirmate
+    # Calculate number of rows with non-null DT_NS1
     rows_did_ns1 = df_filtered_to_ns1.shape[0]
-
-    #take the data
-    #print(analyze_case_days_open(df_filtered_to_ns1, '2022-11-30', period='before'))
-    #print(analyze_case_days_open(df_filtered_to_ns1, '2022-11-30', period='after'))
 
     df['number of days case open'] = (pd.to_datetime(df['DT_ENCERRA']) - pd.to_datetime(df['DT_NOTIFIC'])).dt.days
     df_to_plot = df[['number of days case open', 'DT_NOTIFIC']]
 
-    df_filtered_to_ns1['number of days case open'] = (pd.to_datetime(df['DT_ENCERRA']) - pd.to_datetime(df['DT_NOTIFIC'])).dt.days
+    df_filtered_to_ns1['number of days case open'] = (pd.to_datetime(df_filtered_to_ns1['DT_ENCERRA']) - pd.to_datetime(df_filtered_to_ns1['DT_NOTIFIC'])).dt.days
     df_filtered_to_ns1_plot = df_filtered_to_ns1[['DT_NS1', 'number of days case open']]
 
-    #returns the dataframe to plot with seaborn
+    # Returns the DataFrames to plot
     return df_to_plot, df_filtered_to_ns1_plot
