@@ -163,3 +163,5 @@ cython_debug/
 
 # Preventing the datasets due to its size.
 /data
+/notes
+**/*.xopp
