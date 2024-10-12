@@ -52,3 +52,21 @@ python src\hypothesis_{i}.py
 ```
 
 Algumas hipóteses geram gráficos, arquivos de CSV, e outras apenas fazem alguns cálculos, não necessariamente mostrando algo no output
+
+## Onde se encontra o Paper?
+
+O Paper da análise pode ser encontrado dentro da pasta _**Paper**_
+
+## AVISO
+
+Alguns arquivos de hipóteses, começaram a dar erros durante a execução que não conseguimos entender a causa, porém conseguimos obter as informações necessárias para a análise dos dados.
+Arquivos que geram erros quando executados:
+
+- Hipótese 1
+- Hipótese 5
+
+Arquivos que estão rodando normalmente:
+
+- Hipóteses 2, 3, 4
+
+Frisando, mesmo que ao executar agora dê problema, isso aconteceu nos estágios finais de desenvolvimento, portanto conseguimos obter as informações necessárias para a análise e confecção do paper
