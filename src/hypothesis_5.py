@@ -4,10 +4,11 @@ import os
 import sys
 sys.path.append(os.getcwd())
 from src.hypothesis.hypothesis_5 import hypothesis5
-from src.config import DATASETS, DATASET_LOCAL
+from src.utils.reading import processing_total_dataset
+
 
 def main():
-    dataset = pd.read_csv(os.path.join(DATASET_LOCAL(), 'sinan_dengue_sample_total.csv'), low_memory=False)
+    dataset = processing_total_dataset()
     hypothesis5(dataset)
 
 

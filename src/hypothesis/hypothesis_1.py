@@ -59,7 +59,7 @@ def symptomsSets(df, values):
 
         positive = []
         for symptom in symptoms:
-            if row[symptom] == 1:  # Check if the symptom is present
+            if pd.notnull(row[symptom]) and row[symptom] == 1:  # Check if the symptom is present
                 positive.append(symptom)        
 
         # Update counts for each set size based on positive symptoms

@@ -50,3 +50,5 @@ Python:
 ```
 python src\hypothesis_{i}.py
 ```
+
+Algumas hipóteses geram gráficos, arquivos de CSV, e outras apenas fazem alguns cálculos, não necessariamente mostrando algo no output
