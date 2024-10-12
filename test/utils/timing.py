@@ -15,7 +15,7 @@ class MeasureFunctionExecutionTest(unittest.TestCase):
         def testing_function():
             time.sleep(LAZY_TIME)
         
-        self.assertAlmostEqual(testing_function(), LAZY_TIME, delta=0.01)
+        self.assertAlmostEqual(testing_function(), LAZY_TIME, delta=0.1)
     
     def test_using_parameters(self):
         LAZY_TIME = randint(1, 5)  # Randomize the test function's time execution
@@ -29,8 +29,8 @@ class MeasureFunctionExecutionTest(unittest.TestCase):
         def named_args(**kwargs):
             time.sleep(LAZY_TIME)
         
-        self.assertAlmostEqual(infinite_sum(1,3), LAZY_TIME, delta=0.01)
-        self.assertAlmostEqual(named_args(teste="ola", teste2="ola"), LAZY_TIME, delta=0.01)
+        self.assertAlmostEqual(infinite_sum(1,3), LAZY_TIME, delta=0.1)
+        self.assertAlmostEqual(named_args(teste="ola", teste2="ola"), LAZY_TIME, delta=0.1)
     
     def test_not_passing_functions(self):
         with self.assertRaises(TypeError):

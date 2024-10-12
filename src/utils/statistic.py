@@ -115,7 +115,7 @@ def top_3_counts_numpy(df: pd.DataFrame, columns: list|str) -> list[tuple]:
         columns (list | str): A list of column names to compare for counting non-null values.
 
     Raises:
-        ValueError: Raises if there is a missing column in the Dataframe
+        TypeError: Raises if there is a missing column in the Dataframe
 
     Returns:
         list[tuple]: A list of tuples, each containing the column name and its respective count of non-null values, representing the top 3 most taken exams
@@ -123,7 +123,7 @@ def top_3_counts_numpy(df: pd.DataFrame, columns: list|str) -> list[tuple]:
     # Check if the provided columns are valid
     for col in columns:
         if col not in df.columns:
-            raise ValueError(f"Missing column in DataFrame: {col}")
+            raise TypeError(f"Missing column in DataFrame: {col}")
 
     counts = {}
     # Loop over each column and count non-null values using NumPy
