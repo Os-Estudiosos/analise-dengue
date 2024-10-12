@@ -141,4 +141,10 @@ class ContigencyCoefficientTest(unittest.TestCase):
 class Top3CountsNumpyTest(unittest.TestCase):
     def test_wrong_arguments(self):
         with self.assertRaises(TypeError):
-            pass
+            top_3_counts_numpy(25, 45)
+            top_3_counts_numpy(13, "123456")
+            top_3_counts_numpy((1, 4, 5, 34), 112121)
+    
+    def test_working(self):
+        np.random.seed(42)
+        
