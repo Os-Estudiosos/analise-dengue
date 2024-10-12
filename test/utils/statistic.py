@@ -136,3 +136,7 @@ class ContigencyCoefficientTest(unittest.TestCase):
             contigency_coefficient(df1, 'Olá')
             contigency_coefficient(25, 38)
             contigency_coefficient("Apenas um Teste", 38)
+
+
+class Top3CountsNumpyTest(unittest.TestCase):
+    ...
