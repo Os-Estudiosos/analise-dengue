@@ -6,6 +6,7 @@ import sys
 sys.path.append(os.getcwd())
 
 from src.utils.statistic import chi_square_test, crammer_V, contigency_coefficient, top_3_counts_numpy
+from src.utils.random import generate_random_dataframe
 
 
 def discretizar(df):
@@ -147,4 +148,11 @@ class Top3CountsNumpyTest(unittest.TestCase):
     
     def test_working(self):
         np.random.seed(42)
-        
+
+        df1 = generate_random_dataframe()
+        df2 = generate_random_dataframe()
+        df3 = generate_random_dataframe()
+
+        self.assertEqual(top_3_counts_numpy(df1, df1.columns), [('col_1', 10), ('col_2', 10), ('col_3', 10)])
+        self.assertEqual(top_3_counts_numpy(df2, df2.columns), [('col_2', 10), ('col_3', 10), ('col_4', 10)])
+        self.assertEqual(top_3_counts_numpy(df3, df3.columns), [('col_1', 10), ('col_2', 10), ('col_3', 10)])
