@@ -1,4 +1,4 @@
-uf,uf_code,iso3166-2,osm_relation_id,wikidata_id,name,no_accents,gentilic,gentilic_alternative,macroregion,wikipedia_pt,website,timezone,flag_image
+SG_UF_NOT,SIGLA_UF,iso3166-2,osm_relation_id,wikidata_id,name,no_accents,gentilic,gentilic_alternative,macroregion,wikipedia_pt,website,timezone,flag_image
 12,AC,BR-AC,326266,Q40780,Acre,Acre,acriano,acreano,Norte,pt:Acre,http://www.ac.gov.br,America/Rio_Branco,https://upload.wikimedia.org/wikipedia/commons/4/4c/Bandeira_do_Acre.svg
 27,AL,BR-AL,303781,Q40885,Alagoas,Alagoas,alagoano,,Nordeste,pt:Alagoas,http://www.agenciaalagoas.al.gov.br,America/Maceio,https://upload.wikimedia.org/wikipedia/commons/8/88/Bandeira_de_Alagoas.svg
 13,AM,BR-AM,332476,Q40040,Amazonas,Amazonas,amazonense,,Norte,pt:Amazonas,http://www.amazonas.am.gov.br,"(Leste) America/Manaus, (Oeste) America/Eirunepe",https://upload.wikimedia.org/wikipedia/commons/6/6b/Bandeira_do_Amazonas.svg

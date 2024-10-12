@@ -46,7 +46,7 @@ REQUIRED_COLUMNS = [  # Required columns for every hypothesis
     'SG_UF_NOT', 'ARTRALGIA', 'CLASSI_FIN', 'RENAL', 'HOSPITALIZ', 'VOMITO', 
     'RESUL_VI_N', 'DT_NOTIFIC', 'DT_OBITO', 'DT_DIGITA', 'DOR_COSTAS', 'LACO', 
     'DT_CHIK_S2', 'NAUSEA', 'HIPERTENSA', 'DT_ALRM', 'DT_GRAV', 'DT_PRNT', 
-    'EVOLUCAO', 'HEMATOLOG', 'RESUL_SORO'
+    'EVOLUCAO', 'HEMATOLOG', 'RESUL_SORO', 'SIGLA_UF', 'SG_UF_NOT'
 ]
 
 CHUNKS_SIZE = 5 * 10**4  # Chunks used when reading the Total Dataset

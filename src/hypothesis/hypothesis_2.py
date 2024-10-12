@@ -6,6 +6,12 @@ import numpy as np
 import geoplot.crs as gcrs
 from matplotlib.colors import ListedColormap
 import seaborn as sns
+import os
+import sys
+sys.path.append(os.getcwd())
+from src.config import FILES_FOLDER, OUTPUT_FOLDER, DATASET_LOCAL
+from src.utils.reading import processing_partial_dataset
+from src.utils.timing import extract_month
 
 
 '''
@@ -21,207 +27,72 @@ Then we will analyze the proportion of death in each uf (total).
 
 '''PART 1'''
 def hypothesis2_part1(df:pd.DataFrame):
-
-    def processing_total_dataframe(filepath:str, usecols:list, chunksize:int=1) -> pd.DataFrame:
-        """
-        Function that will process the total dataframe costing less memory
-
-        Args:
-            filepath (str): Add the file path
-            usecols (list): Add a list with the columns that you will use
-            chunksize (int, optional): Define the size of the chunks. Defaults to 1.
-
-        Returns:
-            pd.DataFrame: Output the final processed dataframe
-
-        >>> processing_total_dataframe("analise-dengue/data/sinan_dengue_sample_total.csv", usecols=colums_analyze, chunksize=30000)
-        DT_SIN_PRI  FEBRE  MIALGIA  CEFALEIA  EXANTEMA  VOMITO  NAUSEA  CONJUNTVIT
-        0   2021-02-20    1.0      1.0       1.0       1.0     1.0     1.0         2.0
-        1   2021-02-20    1.0      2.0       1.0       1.0     2.0     2.0         1.0
-        2   2021-01-12    1.0      1.0       1.0       2.0     2.0     1.0         2.0
-        3   2021-01-29    1.0      2.0       1.0       2.0     2.0     1.0         2.0
-        4   2021-02-26    1.0      2.0       1.0       1.0     2.0     1.0         2.0
-        5   2021-02-15    1.0      1.0       1.0       1.0     1.0     2.0         1.0
-        6   2021-01-27    1.0      2.0       1.0       2.0     2.0     2.0         1.0
-        7   2021-02-17    1.0      2.0       1.0       2.0     2.0     1.0         2.0
-        8   2021-02-05    1.0      2.0       1.0       2.0     2.0     2.0         2.0
-        9   2021-03-08    1.0      2.0       1.0       2.0     2.0     1.0         2.0
-        10  2021-02-15    1.0      1.0       1.0       2.0     2.0     2.0         2.0
-        11  2021-03-08    1.0      1.0       1.0       1.0     2.0     2.0         2.0
-        12  2021-02-15    1.0      1.0       1.0       2.0     2.0     1.0         2.0
-        13  2021-01-23    1.0      1.0       1.0       2.0     2.0     1.0         1.0
-        14  2021-03-25    1.0      2.0       1.0       2.0     2.0     2.0         2.0
-        15  2021-03-07    1.0      1.0       1.0       2.0     2.0     1.0         2.0
-        16  2021-03-05    1.0      2.0       1.0       1.0     2.0     2.0         2.0
-        17  2021-01-23    1.0      1.0       1.0       2.0     2.0     2.0         1.0
-        18  2021-01-15    1.0      1.0       1.0       1.0     2.0     1.0         1.0
-        19  2021-01-08    2.0      2.0       1.0       2.0     2.0     1.0         2.0
-        """
-
-        # Read the dataset with chunks
-        df = pd.read_csv(filepath, usecols=usecols, low_memory=False, chunksize=chunksize)
-
-        # Set a empty list to keep the chunks
-        df_list = []
-
-        # Append each chunk in a list
-        for chunk in df:
-            df_list.append(chunk)
-
-        # Concatenate the list in a dataframe
-        df_total = pd.concat(df_list, ignore_index=True)
-
-        return df_total
-
-
-    def extract_month(dataframe:pd.DataFrame, column:str) -> pd.DataFrame:
-        """
-        Function that will extract by month to plot a histogram
-
-        Args:
-            dataframe (pd.DataFrame): Input the dataframe you'll be using
-            column (str): Input the column that tou want to extract by month
-
-        Returns:
-            pd.DataFrame: Output a dataframe extracted by month to plot a histogram
-
-        >>> extract_month(df1, "DT_SIN_PRI")
-        0           2.0
-        1           2.0
-        2           1.0
-        3           1.0
-        4           2.0
-                ...
-        1010354    12.0
-        1010355    12.0
-        1010356    12.0
-        1010357    11.0
-        1010358    12.0
-        """
-
-        # Convert the column to datetime (if not already)
-        dataframe[column] = pd.to_datetime(dataframe.loc[:, column], errors='coerce')
-        return dataframe.loc[:, column].dt.month
-
-
     # Choosing the columns to analyze and creating dataframes with these columns
     colums_analyze = ["DT_SIN_PRI"]
 
     # Loading the datasets and choosing the right columns
-    df1 = processing_total_dataframe("analise-dengue/data/sinan_dengue_sample_2021.csv", usecols=colums_analyze, chunksize=20000)
-    df2 = processing_total_dataframe("analise-dengue/data/sinan_dengue_sample_2022.csv", usecols=colums_analyze, chunksize=20000)
-    df3 = processing_total_dataframe("analise-dengue/data/sinan_dengue_sample_2023.csv", usecols=colums_analyze, chunksize=20000)
-    df4 = processing_total_dataframe("analise-dengue/data/sinan_dengue_sample_2024.csv", usecols=colums_analyze, chunksize=20000)
-    df5 = processing_total_dataframe("analise-dengue/data/sinan_dengue_sample_total.csv", usecols=colums_analyze, chunksize=30000)
+    df1 = processing_partial_dataset(os.path.join(DATASET_LOCAL(), 'sinan_dengue_sample_2021.csv'), usecols=colums_analyze, chunksize=20000)
+    df2 = processing_partial_dataset(os.path.join(DATASET_LOCAL(), 'sinan_dengue_sample_2022.csv'), usecols=colums_analyze, chunksize=20000)
+    df3 = processing_partial_dataset(os.path.join(DATASET_LOCAL(), 'sinan_dengue_sample_2023.csv'), usecols=colums_analyze, chunksize=20000)
+    df4 = processing_partial_dataset(os.path.join(DATASET_LOCAL(), 'sinan_dengue_sample_2024.csv'), usecols=colums_analyze, chunksize=20000)
 
     # Extracting the month from 'DT_SIN_PRI' (begin of the symptoms) and adding it as a new column 'MESES' in each dataframe
     df1["MESES"] = extract_month(df1, "DT_SIN_PRI")
     df2["MESES"] = extract_month(df2, "DT_SIN_PRI")
     df3["MESES"] = extract_month(df3, "DT_SIN_PRI")
     df4["MESES"] = extract_month(df4, "DT_SIN_PRI")
-    df5["MESES"] = extract_month(df5, "DT_SIN_PRI")
+    df["MESES"] = extract_month(df, "DT_SIN_PRI")
 
     # Ploting the histograms by months (each year and total)
     dfs1 = [df1["MESES"], df2["MESES"], df3["MESES"], df4["MESES"]]
     ano1 = 2021
-    for df in dfs1:
+    for i, _df in enumerate(dfs1):
         sns.set_style("white")
-        sns.histplot(df, bins=12, color='red')
+        sns.histplot(_df, bins=12, color='red')
         plt.title(f"CASOS DE DENGUE {ano1} (dividido por mês)")
         plt.xlabel("Mês")
         plt.ylabel("Número de ocorrências")
         plt.xticks(range(1, 13))
-        plt.show()
+        plt.savefig(os.path.join(OUTPUT_FOLDER(), f'Ocorrencia-1-{i}.png'))
+
         ano1 += 1
 
     sns.set_style("white")
-    sns.histplot(df5["MESES"], bins=12, color='red')
+    sns.histplot(df["MESES"], bins=12, color='red')
     plt.title("CASOS DE DENGUE TOTAL (dividido por mês)")
     plt.xlabel("Mês")
     plt.ylabel("Número de ocorrências")
     plt.xticks(range(1, 13))
-    plt.show()
+    plt.savefig(os.path.join(OUTPUT_FOLDER(), f'Caso_De_Dengue_Por_Mes.png'))
+
 
     # Ploting the histograms by periods (each year and total)
     dfs2 = [df1["DT_SIN_PRI"], df2["DT_SIN_PRI"], df3["DT_SIN_PRI"], df4["DT_SIN_PRI"]]
     ano2 = 2021
-    for df in dfs2:
+    for i, _df in enumerate(dfs2):
         sns.set_style("white")
-        sns.histplot(df, kde=True, stat='count')
+        sns.histplot(_df, kde=True, stat='count')
         plt.title(f"CASOS DE DENGUE {ano2} (detalhado)")
         plt.xlabel("Período")
         plt.ylabel("Número de ocorrências")
-        plt.show()
+        plt.savefig(os.path.join(OUTPUT_FOLDER(), f'Ocorrencia-2-{i}.png'))
         ano2 += 1
 
     sns.set_style("white")
-    sns.histplot(df5["DT_SIN_PRI"], kde=True, stat='count')
+    sns.histplot(df["DT_SIN_PRI"], kde=True, stat='count')
     plt.title("CASOS DE DENGUE TOTAL (detalhado)")
     plt.xlabel("Período")
     plt.ylabel("Número de ocorrências")
-    plt.show()
+    plt.savefig(os.path.join(OUTPUT_FOLDER(), 'Caso_Dengue_Total.png'))
 
 
 '''PART 2'''
-def hypothesis2_part2(df:pd.DataFrame):
-    def processing_total_dataframe(filepath:str, usecols:list, chunksize:int=1) -> pd.DataFrame:
-        """
-        Function that will process the total dataframe costing less memory
-
-        Args:
-            filepath (str): Add the file path
-            usecols (list): Add a list with the columns that you will use
-            chunksize (int, optional): Define the size of the chunks. Defaults to 1.
-
-        Returns:
-            pd.DataFrame: Output the final processed dataframe
-
-        >>> processing_total_dataframe("analise-dengue/data/sinan_dengue_sample_total.csv", usecols=colums_analyze, chunksize=30000)
-        DT_SIN_PRI  FEBRE  MIALGIA  CEFALEIA  EXANTEMA  VOMITO  NAUSEA  CONJUNTVIT
-        0   2021-02-20    1.0      1.0       1.0       1.0     1.0     1.0         2.0
-        1   2021-02-20    1.0      2.0       1.0       1.0     2.0     2.0         1.0
-        2   2021-01-12    1.0      1.0       1.0       2.0     2.0     1.0         2.0
-        3   2021-01-29    1.0      2.0       1.0       2.0     2.0     1.0         2.0
-        4   2021-02-26    1.0      2.0       1.0       1.0     2.0     1.0         2.0
-        5   2021-02-15    1.0      1.0       1.0       1.0     1.0     2.0         1.0
-        6   2021-01-27    1.0      2.0       1.0       2.0     2.0     2.0         1.0
-        7   2021-02-17    1.0      2.0       1.0       2.0     2.0     1.0         2.0
-        8   2021-02-05    1.0      2.0       1.0       2.0     2.0     2.0         2.0
-        9   2021-03-08    1.0      2.0       1.0       2.0     2.0     1.0         2.0
-        10  2021-02-15    1.0      1.0       1.0       2.0     2.0     2.0         2.0
-        11  2021-03-08    1.0      1.0       1.0       1.0     2.0     2.0         2.0
-        12  2021-02-15    1.0      1.0       1.0       2.0     2.0     1.0         2.0
-        13  2021-01-23    1.0      1.0       1.0       2.0     2.0     1.0         1.0
-        14  2021-03-25    1.0      2.0       1.0       2.0     2.0     2.0         2.0
-        15  2021-03-07    1.0      1.0       1.0       2.0     2.0     1.0         2.0
-        16  2021-03-05    1.0      2.0       1.0       1.0     2.0     2.0         2.0
-        17  2021-01-23    1.0      1.0       1.0       2.0     2.0     2.0         1.0
-        18  2021-01-15    1.0      1.0       1.0       1.0     2.0     1.0         1.0
-        19  2021-01-08    2.0      2.0       1.0       2.0     2.0     1.0         2.0
-        """
-
-        # Read the dataset with chunks
-        df = pd.read_csv(filepath, usecols=usecols, low_memory=False, chunksize=chunksize)
-
-        # Set a empty list to keep the chunks
-        df_list = []
-
-        # Append each chunk in a list
-        for chunk in df:
-            df_list.append(chunk)
-
-        # Concatenate the list in a dataframe
-        df_total = pd.concat(df_list, ignore_index=True)
-
-        return df_total
-
-
-    def count_dengue_cases_by_state(filepath:str, columns:list) -> pd.DataFrame:
+def count_dengue_cases_by_state(df: pd.DataFrame, columns:list) -> pd.DataFrame:
         """
         Function that will crate a dataframe with the total amount of dengue cases by each uf
 
         Args:
-            filepath (str): Add the file
+            filepath (pd.DataFrame): Dataframe that will be analysed
             columns (list): Add the columns that will be analised
 
         Returns:
@@ -257,22 +128,13 @@ def hypothesis2_part2(df:pd.DataFrame):
         25       TO        44380          22.0    0.049572
         """
         # Load the file with the uf codes and acronyms
-        cities = pd.read_csv("analise-dengue/files/ufs.csv", usecols=["SG_UF_NOT","SIGLA_UF"], low_memory=False)
+        cities = pd.read_csv(os.path.join(FILES_FOLDER(), "ufs.csv"), usecols=["SG_UF_NOT","SIGLA_UF"], low_memory=False)
         
         # Inicializing a empty list to keep the chunks
         df_list = []
         
-        # Load the total dengue dataset 
-        df_chunks = pd.read_csv(filepath, usecols=columns, low_memory=False, chunksize=30000)
-
-        # Iterate in each chunk
-        for chunk in df_chunks:
-            # Mergin the data on the acronyms
-            merged_data = pd.merge(chunk, cities, on="SG_UF_NOT", how="left")
-            df_list.append(merged_data)
-
-        # Concatenate all the chinks
-        df_total = pd.concat(df_list, ignore_index=True)
+        # Load the total dengue dataset
+        df_total = df[columns]
         
         # Creating a new dataframe to keep the total dengue cases grouped by uf
         cases_by_state = df_total.groupby("SIGLA_UF").size().reset_index(name='TOTAL_CASES')
@@ -294,11 +156,12 @@ def hypothesis2_part2(df:pd.DataFrame):
         return df
 
 
+def hypothesis2_part2(df:pd.DataFrame):
     # Calculate the total amount of dengue cases by uf 
-    dengue = count_dengue_cases_by_state("analise-dengue/data/sinan_dengue_sample_total.csv", ["SG_UF_NOT", "EVOLUCAO"])
+    dengue = count_dengue_cases_by_state(df, ["SG_UF_NOT", "EVOLUCAO", "SIGLA_UF"])
 
     # Reading Brazil's shapefile and merging the total dengue cases
-    mapa_brasil = gpd.read_file("analise-dengue/files/BR_UF_2022.shp")
+    mapa_brasil = gpd.read_file(os.path.join(FILES_FOLDER(), "BR_UF_2022.shp"))
     mapa_brasil = mapa_brasil.merge(dengue, left_on='SIGLA_UF', right_on='SIGLA_UF')
 
     # Making a new colormap
@@ -332,7 +195,7 @@ def hypothesis2_part2(df:pd.DataFrame):
         projection=gcrs.PlateCarree()
     )
     ax1.set_title("Distribuição de Casos de Dengue no Brasil (2021-2024)", fontsize=18)
-    plt.show()
+    plt.savefig(os.path.join(OUTPUT_FOLDER(), 'Distribuicao_Casos_De_Dengue_Brasil.png'))
 
     # Plotting the geoplot (proportion of deaths by uf)
     ax2 = gplt.polyplot(
@@ -361,4 +224,5 @@ def hypothesis2_part2(df:pd.DataFrame):
         projection=gcrs.PlateCarree()
     )
     ax2.set_title("Distribuição das proporções de mortes no Brasil (2021-2024)", fontsize=18)
-    plt.show()
+    plt.savefig(os.path.join(OUTPUT_FOLDER(), 'Distribuicao_Proporcoes_De_Mortes_Brasil.png'))
+
