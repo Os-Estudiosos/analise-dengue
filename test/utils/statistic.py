@@ -5,7 +5,7 @@ import os
 import sys
 sys.path.append(os.getcwd())
 
-from src.utils.statistic import chi_square_test, crammer_V, contigency_coefficient
+from src.utils.statistic import chi_square_test, crammer_V, contigency_coefficient, top_3_counts_numpy
 
 
 def discretizar(df):
@@ -139,4 +139,6 @@ class ContigencyCoefficientTest(unittest.TestCase):
 
 
 class Top3CountsNumpyTest(unittest.TestCase):
-    ...
+    def test_wrong_arguments(self):
+        with self.assertRaises(TypeError):
+            pass
