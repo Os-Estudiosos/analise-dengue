@@ -3,24 +3,24 @@ import os
 
 
 def DATASET_LOCAL() -> str:
-    """Função que retorna o caminho absoluto dos datasets
+    """Return the absolute path of the datasets
 
     Returns:
-        str: Caminho dos Datasets
+        str: Dataset's path
     """
     return os.path.join(os.getcwd(), 'data')
 
 
 def DATASETS() -> list[str]:
-    """Função que retorna uma lista com todos os arquivos de acordo com o local (Independente do Sistema)
+    """Function that returns a list with all files inside the DATA path
 
     Returns:
-        list[str]: Lista dos arquivos
+        list[str]: Files list
     """
     return os.listdir(DATASET_LOCAL())
 
 
-REQUIRED_COLUMNS = [
+REQUIRED_COLUMNS = [  # Required columns for every hypothesis
     'DT_INVEST', 'FEBRE', 'DOR_RETRO', 'LEUCOPENIA', 'PETEQUIA_N', 'DT_VIRAL', 
     'RESUL_NS1', 'ACIDO_PEPT', 'DT_PCR', 'AUTO_IMUNE', 'CEFALEIA', 'ARTRITE', 
     'DT_ENCERRA', 'DT_SIN_PRI', 'MIALGIA', 'CONJUNTVIT', 'DT_NS1', 'DIABETES', 
@@ -32,4 +32,4 @@ REQUIRED_COLUMNS = [
 ]
 
 
-CHUNKS_SIZE = 5 * 10**4
+CHUNKS_SIZE = 5 * 10**4  # Chunks used when reading the Total Dataset

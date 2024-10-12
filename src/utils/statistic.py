@@ -4,34 +4,34 @@ import numpy as np
 from math import sqrt
 
 def chi_square_test(qualitative_variable_1: pd.Series, qualitative_variable_2: pd.Series) -> float:
-    """Essa função recebe duas séries pandas (De variáveis qualitativas) e realiza o teste do Qui-Quadrado
+    """Receive two pandas Series, and calculate the Square Chi test between them
 
     Args:
-        qualitative_variable_1 (pd.Series): Série contendo a segunda variável
-        qualitative_variable_2 (pd.Series): Série contendo a primeira variável
+        qualitative_variable_1 (pd.Series): First Series
+        qualitative_variable_2 (pd.Series): Second Series
 
     Raises:
-        TypeError: Levanta esse erro se o usuário não passar Séries Pandas
+        TypeError: Raises when the arguments are not Pandas Series
 
     Returns:
-        float: Valor Qui-Quadrado
+        float: Chi Square Result
     """
-    # Checando os tipos das variáveis
+    # Checking the args types
     if not isinstance(qualitative_variable_1, pd.Series) or not isinstance(qualitative_variable_2, pd.Series):
         raise TypeError("Os argumentos passados não são Séries Pandas")
 
     cross_table = pd.crosstab(qualitative_variable_1, qualitative_variable_2, margins=True)
 
-    # Criando a frequência esperada em cada elemento
+    # Creating the frequency table
     frequency_row = np.ndarray((1,len(cross_table.columns)), dtype=float)
     
     for i, element in enumerate(cross_table.loc['All']):
         frequency_row[0,i] = element/cross_table.loc['All', 'All']
 
-    # Criando a tabela dos valores esperados
+    # Creating the Expected Values table
     expected_values = pd.DataFrame(index=cross_table.index, columns=cross_table.columns, dtype=pd.Float64Dtype())
     
-    # Colocando o valor esperado em cada elemento ij da tabela
+    # Putting the expected value in each IJ entry of the expected value's table
     for row in cross_table.index:
         for i_column, column in enumerate(cross_table.columns):
             if column == 'All':
@@ -39,12 +39,12 @@ def chi_square_test(qualitative_variable_1: pd.Series, qualitative_variable_2: p
                 continue
             expected_values.loc[row, column] = cross_table.loc[row, 'All']*frequency_row[0, i_column] 
 
-    # Criando a tabela das diferenças entre os valores
+    # Creating the table of the values differences
     difference_table = pd.DataFrame(index=cross_table.index, columns=cross_table.columns, dtype=pd.Float64Dtype())
     for column in difference_table.columns:
         difference_table[column] = ((cross_table[column] - expected_values[column])**2)/expected_values[column]
 
-    # Calculando Qui-Quadrado
+    # Calculating the Chi Square
     qui_quadrado = 0
     for row in difference_table.iloc:
         qui_quadrado += row.sum()
@@ -53,17 +53,17 @@ def chi_square_test(qualitative_variable_1: pd.Series, qualitative_variable_2: p
 
 
 def crammer_V(qualitative_variable_1: pd.Series, qualitative_variable_2: pd.Series) -> float:
-    """Função que calcula V de Crammer
+    """Calculates Crammer's V
 
     Args:
-        qualitative_variable_1 (pd.Series): Série da variável qualitativa
-        qualitative_variable_2 (pd.Series): Série da variável qualitativa
+        qualitative_variable_1 (pd.Series): Series 1
+        qualitative_variable_2 (pd.Series): Series 2
 
     Raises:
-        TypeError: Levanta esse erro se não for passadas séries pandas como argumentos
+        TypeError: Raises if the args are not Pandas Series
 
     Returns:
-        float: V de Crammer
+        float: Crammer's V
     """
     if not isinstance(qualitative_variable_1, pd.Series) or not isinstance(qualitative_variable_2, pd.Series):
         raise TypeError
@@ -80,17 +80,17 @@ def crammer_V(qualitative_variable_1: pd.Series, qualitative_variable_2: pd.Seri
 
 
 def contigency_coefficient(qualitative_variable_1: pd.Series, qualitative_variable_2: pd.Series) -> float:
-    """Função que calcula o coeficiente de contigência
+    """Calculates the Coeficient Contigency
 
     Args:
-        qualitative_variable_1 (pd.Series): Série de variável qualitativa 1
-        qualitative_variable_2 (pd.Series): Série de variável qualitativa 2
+        qualitative_variable_1 (pd.Series): Serie 1
+        qualitative_variable_2 (pd.Series): Serie 2
 
     Raises:
-        TypeError: Levanta quando os argumentos passados não são séries Pandas
+        TypeError: Raises when the args are not Pandas Series
 
     Returns:
-        float: Coeficiente de Contigência
+        float: Contigency Coefficient
     """
     # Checando os tipos das variáveis
     if not isinstance(qualitative_variable_1, pd.Series) or not isinstance(qualitative_variable_2, pd.Series):

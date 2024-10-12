@@ -7,15 +7,22 @@ from utils.timing import measure_function_execution
 
 # Importing the hypothesis functions
 from hypothesis.hypothesis_3 import hypothesis3
+from hypothesis.hypothesis_5 import hypothesis5
 
 
 @measure_function_execution
 def main():
-    # Lendo o DATASET (Como é um dataset grande, a função demora um pouco, lê partes do dataset e unifica tudo, já filtrando apenas as colunas que serão utilizadas para fazer as hipóteses)
+    # Reading the DATASET
+    # Already filtered and only the necessary columns
+    print('Processando o DATASET')
     df = processing_total_dataset()
 
-    # Testando cada hipótese
-    hypothesis3(df)    
+    # Testing each hypothesis
+    print('Analisando (Hipótese 3)')
+    hypothesis3(df)
+
+    print('Analisando (Hipótese 5)')
+    hypothesis_5_return = hypothesis5(df)
 
 
 if __name__ == '__main__':

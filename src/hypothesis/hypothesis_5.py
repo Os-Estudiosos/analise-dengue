@@ -104,11 +104,8 @@ def hypothesis5(df: pd.DataFrame):
     #print(analyze_case_days_open(df_filtered_to_ns1, '2022-11-30', period='after'))
 
     df['number of days case open'] = (pd.to_datetime(df['DT_ENCERRA']) - pd.to_datetime(df['DT_NOTIFIC'])).dt.days
-    print('df para plotagem - geral - data considerada: 30/11/2022')
     df_to_plot = df[['number of days case open', 'DT_NOTIFIC']]
-    print((df_to_plot.head()))
 
-    print('df para plotagem - apenas casos de ns1 - data considerada: 30/11/2022')
     df_filtered_to_ns1['number of days case open'] = (pd.to_datetime(df['DT_ENCERRA']) - pd.to_datetime(df['DT_NOTIFIC'])).dt.days
     df_filtered_to_ns1_plot = df_filtered_to_ns1[['DT_NS1', 'number of days case open']]
 
