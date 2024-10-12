@@ -7,6 +7,7 @@ from utils.timing import measure_function_execution
 
 # Importing the hypothesis functions
 from hypothesis.hypothesis_1 import hypothesis1
+from hypothesis.hypothesis_2 import hypothesis2_part1, hypothesis2_part2
 from hypothesis.hypothesis_3 import hypothesis3
 from hypothesis.hypothesis_4 import hypothesis4
 from hypothesis.hypothesis_5 import hypothesis5
@@ -23,6 +24,8 @@ def main():
     hypothesis_list: list[typing.Callable] = [
         hypothesis1,
         hypothesis3,
+        hypothesis2_part1,
+        hypothesis2_part2,
         hypothesis4,
         hypothesis5
     ]
@@ -41,7 +44,7 @@ def main():
         for hyp_name, hypothesis_finished in hypothesis_running.values():
             hypothesis_results[hyp_name] = hypothesis_finished.result()
         
-        print(hypothesis_results)            
+        print(hypothesis_results)
 
 
 if __name__ == '__main__':

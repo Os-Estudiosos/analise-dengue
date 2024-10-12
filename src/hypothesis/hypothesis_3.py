@@ -5,7 +5,7 @@ import sys
 import concurrent.futures
 sys.path.append(os.getcwd())
 from src.utils.statistic import contigency_coefficient
-from src.config import DATASET_LOCAL
+from src.config import OUTPUT_FOLDER
 
 
 def hypothesis3(df: pd.DataFrame) -> None:
@@ -81,4 +81,4 @@ def hypothesis3(df: pd.DataFrame) -> None:
             result = pending.result()
             contigency_table.loc[result['exam'], result['symptom']] = result['ct']
     
-    contigency_table.to_csv(os.path.join(DATASET_LOCAL(), 'contigency_table_exams_and_symptoms.csv'))
+    contigency_table.to_csv(os.path.join(OUTPUT_FOLDER(), 'contigency_table_exams_and_symptoms.csv'))

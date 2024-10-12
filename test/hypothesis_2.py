@@ -8,7 +8,7 @@ from src.utils.reading import processing_total_dataset
 
 def main():
     dataset = processing_total_dataset()
-    # hypothesis2_part1(dataset)
+    hypothesis2_part1(dataset)
     hypothesis2_part2(dataset)
 
 
