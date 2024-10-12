@@ -20,7 +20,21 @@ def DATASETS() -> list[str]:
     return os.listdir(DATASET_LOCAL())
 
 
+def FILES_FOLDER() -> str:
+    """Function that returns the path of the 'Files' folder
+
+    Returns:
+        str: 'Files' folder's path
+    """
+    return os.path.join(os.getcwd(), 'files')
+
+
 def OUTPUT_FOLDER() -> str:
+    """Function that returns the path of the 'Output' folder
+
+    Returns:
+        str: 'Output' folder's path
+    """
     return os.path.join(os.getcwd(), 'output')
 
 

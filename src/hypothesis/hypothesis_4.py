@@ -4,9 +4,11 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import math as mt
 from typing import Tuple, List
+import os
+import sys
+sys.path.append(os.getcwd())
+from src.config import FILES_FOLDER
 
-# Expandir o DataFrame para a largura total da tela
-pd.set_option('display.expand_frame_repr', False)
 
 def discover_occupation() -> pd.DataFrame:
     """
@@ -16,8 +18,7 @@ def discover_occupation() -> pd.DataFrame:
         pd.DataFrame: DataFrame filtrado contendo apenas ocupações rurais de interesse.
     """
     try:
-        path_occupation_csv = 'files/CBO2002_Ocupacao.csv'
-        df2_occup = pd.read_csv(path_occupation_csv, encoding='ISO-8859-1', sep=';')
+        df2_occup = pd.read_csv(os.path.join(FILES_FOLDER(), 'CBO2002_Ocupacao.csv'), encoding='ISO-8859-1', sep=';')
 
         # Filtra por termos relacionados ao meio rural
         keywords = ['rural', 'agri', 'pecu', 'agro']
@@ -30,11 +31,12 @@ def discover_occupation() -> pd.DataFrame:
         return df2_agriculture
 
     except FileNotFoundError:
-        raise FileNotFoundError(f"Arquivo não encontrado: {path_occupation_csv}")
+        raise FileNotFoundError(f"Arquivo não encontrado: CBO2002_Ocupacao.csv")
     except Exception as e:
         raise RuntimeError(f"Erro ao processar o arquivo: {e}")
 
-def hypothesis4(df: pd.DataFrame, df2_agriculture: pd.DataFrame) -> Tuple[float, float, float, float]:
+
+def hypothesis4(df: pd.DataFrame) -> Tuple[float, float, float, float]:
     """
     Valida a hipótese de correlação entre ocupações rurais e infecção por dengue.
 
@@ -45,6 +47,8 @@ def hypothesis4(df: pd.DataFrame, df2_agriculture: pd.DataFrame) -> Tuple[float,
     Returns:
         Tuple[float, float, float, float]: Média das proporções gerais, média das proporções rurais, valor do qui-quadrado e coeficiente de contingência.
     """
+    df2_agriculture: pd.DataFrame = discover_occupation()
+
     try:
         df['ID_OCUPA_N'] = df['ID_OCUPA_N'].replace(['NA', 'na', ''], np.nan)
         df = df[df['ID_OCUPA_N'].notnull()]
@@ -90,10 +94,15 @@ def hypothesis4(df: pd.DataFrame, df2_agriculture: pd.DataFrame) -> Tuple[float,
             ]
 
             df.loc[:, results] = df[results].replace(['NA', 'na', ''], np.nan)
-            df_filtered = df[df[results].isin(['1', '2']).any(axis=1)]
 
-            df_positive = df_filtered[df_filtered[results].isin(['1']).any(axis=1)]  
-            df_negative = df_filtered[df_filtered[results].isin(['2']).any(axis=1)]  
+            #print(df)
+
+            df_filtered = df[df[results].isin([1, 2]).any(axis=1)]
+
+            #print(df_filtered)
+
+            df_positive = df_filtered[df_filtered[results].isin([1]).any(axis=1)]  
+            df_negative = df_filtered[df_filtered[results].isin([2]).any(axis=1)]  
 
             df_positive_rural = df_positive[df_positive['ID_OCUPA_N'].isin(list_codes_rural)]
             df_positive_others = df_positive[~df_positive['ID_OCUPA_N'].isin(list_codes_rural)]    
@@ -145,39 +154,9 @@ def hypothesis4(df: pd.DataFrame, df2_agriculture: pd.DataFrame) -> Tuple[float,
         con_coe = verify_contingency_coefficient(infos)
         chi_square = infos[0]
 
+        print(reasons_average, reasons_rural_averge, chi_square, con_coe)
+
         return (reasons_average, reasons_rural_averge, chi_square, con_coe)
 
     except Exception as e:
         raise RuntimeError(f"Erro ao processar a hipótese: {e}")
-
-
-# Simula os parâmetros que serão passados para a função #####################
-usecols = [
-    'ID_OCUPA_N',
-    'DOENCA_TRA',
-    'RESUL_SORO',
-    'RESUL_NS1',
-    'RESUL_VI_N',
-    'RESUL_PCR_',
-    'SOROTIPO',
-    'HISTOPA_N',
-    'IMUNOH_N',
-]
-dtype = {
-    'ID_OCUPA_N': 'str',
-    'DOENCA_TRA': 'str',
-    'RESUL_SORO': 'str',
-    'RESUL_NS1': 'str',
-    'RESUL_VI_N': 'str',
-    'RESUL_PCR_': 'str',
-    'SOROTIPO': 'str',
-    'HISTOPA_N': 'str',
-    'IMUNOH_N': 'str'
-}
-
-path_csv = 'data/sinan_dengue_sample_complete.csv'
-df = pd.read_csv(path_csv, usecols=usecols, dtype=dtype)
-print(hypothesis4(df, discover_occupation()))
-
-
-
