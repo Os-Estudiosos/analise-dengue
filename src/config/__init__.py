@@ -20,6 +20,10 @@ def DATASETS() -> list[str]:
     return os.listdir(DATASET_LOCAL())
 
 
+def OUTPUT_FOLDER() -> str:
+    return os.path.join(os.getcwd(), 'output')
+
+
 REQUIRED_COLUMNS = [  # Required columns for every hypothesis
     'DT_INVEST', 'FEBRE', 'DOR_RETRO', 'LEUCOPENIA', 'PETEQUIA_N', 'DT_VIRAL', 
     'RESUL_NS1', 'ACIDO_PEPT', 'DT_PCR', 'AUTO_IMUNE', 'CEFALEIA', 'ARTRITE', 
@@ -31,5 +35,6 @@ REQUIRED_COLUMNS = [  # Required columns for every hypothesis
     'EVOLUCAO', 'HEMATOLOG', 'RESUL_SORO'
 ]
 
-
 CHUNKS_SIZE = 5 * 10**4  # Chunks used when reading the Total Dataset
+
+MAX_SET_SIZE = 3  # Maximum size of symptom sets to consider
