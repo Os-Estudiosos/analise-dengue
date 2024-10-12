@@ -8,7 +8,7 @@ from src.filtering import filter_dataset
 from src.utils.timing import measure_function_execution
 
 
-def processing_total_dataset() -> list[pd.DataFrame]:
+def processing_total_dataset() -> pd.DataFrame:
     """
     Function that will process the total dataset costing less memory, uses the columns specified on the CONFIG file
 
@@ -38,6 +38,6 @@ def processing_total_dataset() -> list[pd.DataFrame]:
             for pending_thread in threads_running:
                 dataframes.append(pending_thread.result())
 
-        return dataframes
+        return pd.concat(dataframes)
     except Exception as e:
         print(e)

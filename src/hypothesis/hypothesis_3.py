@@ -4,8 +4,9 @@ import os
 import sys
 import concurrent.futures
 sys.path.append(os.getcwd())
-from src.config import DATASET_LOCAL, DATASETS
-from src.utils import chi_square_test, contigency_coefficient
+from src.utils.statistic import contigency_coefficient
+from src.config import DATASET_LOCAL
+
 
 def hypothesis3(df: pd.DataFrame) -> None:
     EXAMS = [
@@ -40,15 +41,26 @@ def hypothesis3(df: pd.DataFrame) -> None:
     ]
 
     # # Retira apenas as colunas necessárias
-    new_df = pd.concat(df[EXAMS], df[SYMPTOMS])
-
-    print(new_df.head())
+    new_df = df[[*EXAMS, *SYMPTOMS]]
 
     # Vou fazer tabelas e medir o Coeficiente de Contigência entre cada exame e cada teste,
     # assim eu filtro aqueles que tem relação com os que não tem nenhuma
 
-    def mostrar_qui_quadrado(exam, symptom):
-        print(f"Teste entre {exam} e {symptom}: {contigency_coefficient(new_df[exam], new_df[symptom])}")
+    contigency_table = pd.DataFrame(index=EXAMS, columns=SYMPTOMS, dtype=pd.Float32Dtype())  # Tabela que vai ter cada coeficiente de contigência entre cada exame e sintoma
+
+    def calcular_qui_quadrado(exam: str, symptom: str) -> dict:
+        """Function that calculate Square Chi between an exam and a symptom and returns a dictionary (Made to use with multithread)
+
+        Args:
+            exam (str): Exam
+            symptom (str): Symptom
+
+        Returns:
+            dict: Dictionary with both
+        """
+        ct = contigency_coefficient(new_df[exam], new_df[symptom])
+        return { 'exam': exam, 'symptom': symptom, 'ct': ct }
+        
 
     with concurrent.futures.ThreadPoolExecutor() as executor:  # Estrutura do multithreading
         threads_running: list[concurrent.futures.Future] = []
@@ -57,7 +69,7 @@ def hypothesis3(df: pd.DataFrame) -> None:
             for symptom in SYMPTOMS:
                 threads_running.append(
                     executor.submit(
-                        mostrar_qui_quadrado,
+                        calcular_qui_quadrado,
                         exam,
                         symptom
                     )
@@ -65,6 +77,8 @@ def hypothesis3(df: pd.DataFrame) -> None:
 
         concurrent.futures.wait(threads_running)  # Esperando todas as tasks executarem
 
-        # for pending_thread in threads_running:
-        #     result = pending_thread.result()
-        #     print(result)
+        for pending in threads_running:
+            result = pending.result()
+            contigency_table.loc[result['exam'], result['symptom']] = result['ct']
+    
+    contigency_table.to_csv(os.path.join(DATASET_LOCAL(), 'contigency_table_exams_and_symptoms.csv'))
