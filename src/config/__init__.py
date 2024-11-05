@@ -50,6 +50,6 @@ REQUIRED_COLUMNS = [  # Required columns for every hypothesis
     'HISTOPA_N', 'IMUNOH_N',
 ]
 
-CHUNKS_SIZE = 5 * 10**4  # Chunks used when reading the Total Dataset
+CHUNKS_SIZE = 4 * 10**4  # Chunks used when reading the Total Dataset
 
 MAX_SET_SIZE = 3  # Maximum size of symptom sets to consider
