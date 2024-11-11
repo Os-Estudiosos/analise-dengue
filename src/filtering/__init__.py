@@ -24,8 +24,23 @@ def convert_age(age: str|int) -> float:
     Returns:
         float: A idade de forma precisa (Exemplo: 12.5 é 12 anos e 6 meses)
     """
+    if not isinstance(age, int) and not isinstance(age, str):
+        raise TypeError('Passe um argumento válido para a função')
+    try:
+        int(age)  # Serve para levantar erro se passar argumento tipo "2.34"
+    except TypeError as err:
+        raise ValueError('O Valor passado está incorreto') from err
 
-    return 0
+    age_structure = [str(age)[0], float(str(age)[1:len(str(age))])]
+
+    if age_structure[0] == '4':
+        return age_structure[1]
+    elif age_structure[0] == '3':
+        return age_structure[1]/12
+    elif age_structure[0] == '2':
+        return age_structure[1]/365
+    else:
+        return age_structure[1]/8766
 
 
 def filter_dataset(df: pd.DataFrame) -> pd.DataFrame:
