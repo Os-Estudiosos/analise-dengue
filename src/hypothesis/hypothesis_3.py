@@ -1,22 +1,58 @@
 import pandas as pd
+from pandas.io.parsers import TextFileReader
 import numpy as np
-import os
-import sys
-# import concurrent.futures
-sys.path.append(os.getcwd())
+import concurrent
+from src.filtering import filter_dataset
 # from src.utils.statistic import contigency_coefficient
 # from src.config import OUTPUT_FOLDER
 
 
-def hypothesis3(df: pd.DataFrame) -> None:
-    AGE_COLUMN = 'NU_IDADE_N'  # Lista das colunas que vou utilizar
-    
-    # Retiro apenas as colunas necessárias
-    new_df = df[AGE_COLUMN]
+def hypothesis3(chunks: TextFileReader) -> None:
+    AGE_COLUMN = 'IDADE_ANOS'  # Lista das colunas que vou utilizar
+    DANGER_SYMTOMPS_DICT = {
+        'serious': [
+            'RENAL',
+            'HIPERTENSA',
+            'HEPATOPAT',
+            'LEUCOPENIA',
+            'DIABETES'
+        ],
+        'worrying': [
+            'VOMITO',
+            'DOR_RETRO',
+            'ARTRALGIA'
+        ],
+        'common': [
+            'FEBRE',
+            'PETEQUIA_N',
+            'MIALGIA',
+            'CEFALEIA',
+            'CONJUNTVIT',
+            'EXANTEMA',
+            'ARTRITE',
+            'NAUSEA'
+        ], 
+    }
 
-    print(new_df[AGE_COLUMN[0]].value_counts())
 
-    # Vou fazer tabelas e medir o Coeficiente de Contigência entre cada exame e cada teste,
-    # assim eu filtro aqueles que tem relação com os que não tem nenhuma
-    
-    # contigency_table = pd.DataFrame(index=COMPLICATIONS.keys(), columns=EVOLUTIONS.keys(), dtype=pd.Float32Dtype())
+    try:
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            threads_running: list[concurrent.futures.Future] = []
+
+            for chunk in chunks:  # Para cada chunk
+                # Eu junto o dataset das siglas com o dataset original (Chunk)
+
+                threads_running.append(
+                    executor.submit(
+                        hypothesis3,
+                        chunk
+                    )
+                )
+
+            concurrent.futures.wait(threads_running)
+
+            for pending_thread in threads_running:
+                pending_thread.result()
+    except Exception as e:
+        print(e)
+

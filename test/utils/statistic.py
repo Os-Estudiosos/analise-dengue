@@ -5,7 +5,7 @@ import os
 import sys
 sys.path.append(os.getcwd())
 
-from src.utils.statistic import chi_square_test, crammer_V, contigency_coefficient, top_3_counts_numpy
+from src.utils.statistic import chi_square_test, crammer_V, contigency_coefficient, top_3_counts_numpy, n_sets_mean
 from src.utils.random import generate_random_dataframe
 
 
@@ -138,6 +138,30 @@ class ContigencyCoefficientTest(unittest.TestCase):
             contigency_coefficient(25, 38)
             contigency_coefficient("Apenas um Teste", 38)
 
+
+class NSetsMeanTest(unittest.TestCase):
+    def test_calculating_right_mean(self):
+        """Testando se está calculando o resultado da média da união dos conjuntos"""
+        # Definindo os conjuntos
+        C1 = {2, 4, 6, 8, 10}
+        C2 = {3, 5, 7, 9, 11}
+        C3 = {1, 8, 9, 10, 12}
+
+        self.assertEqual(n_sets_mean({C1, C2, C3}), 7)
+        self.assertEqual(n_sets_mean({C1}), 6)
+
+    def test_rasing_errors(self):
+        """Testando se os devidos erros estão sendo levantados"""
+        with self.assertRaises(TypeError):
+            n_sets_mean(1)
+            n_sets_mean('qw1123')
+            n_sets_mean(1.5)
+            n_sets_mean(complex(1, 5))
+        
+        with self.assertRaises(ValueError):
+            n_sets_mean({ 1, 2, 3, 4 })
+            n_sets_mean({'1', '245'})
+            n_sets_mean({{ '1', '2' }})
 
 class Top3CountsNumpyTest(unittest.TestCase):
     def test_wrong_arguments(self):
