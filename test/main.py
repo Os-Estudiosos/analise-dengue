@@ -5,7 +5,8 @@ import unittest
 from utils.statistic import ChiSquareTest, CrammerVTest, ContigencyCoefficientTest, Top3CountsNumpyTest
 
 # Testes das funções de tempo
-from utils.timing import MeasureFunctionExecutionTest
+# from utils.timing import MeasureFunctionExecutionTest
+from filtering import AgeConversionTest
 
 
 if __name__ == "__main__":
