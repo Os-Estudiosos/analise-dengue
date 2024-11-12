@@ -2,7 +2,7 @@
 import unittest
 
 # Testes das funções estatísticas
-from utils.statistic import ChiSquareTest, CrammerVTest, ContigencyCoefficientTest, Top3CountsNumpyTest
+from utils.statistic import *
 
 # Testes das funções de tempo
 # from utils.timing import MeasureFunctionExecutionTest
