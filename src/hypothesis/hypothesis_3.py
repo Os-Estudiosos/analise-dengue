@@ -42,21 +42,26 @@ def hypothesis3(chunks: TextFileReader) -> None:
             *DANGER_SYMTOMPS_DICT['serious'],
         ]]
 
-        conditions = [(new_chunk[col] == 1).all(axis=1) for col in DANGER_SYMTOMPS_DICT['serious']]
-        results = [ 'GRAVE', 'PREOCUPANTE' ]
-        new_chunk['SINTOMAS_CLASSIFICACAO'] = np.select(conditions, results, default='COMUM')
+        refactored_chunk = pd.DataFrame(new_chunk[AGE_COLUMN], columns=[AGE_COLUMN, 'SINTOMA_CLASSIFIC'])
 
-        print(new_chunk)
+        for symptom in DANGER_SYMTOMPS_DICT['serious']:
+            # Se tiver alguém com sintomas graves
+            refactored_chunk['SINTOMA_CLASSIFIC'] = (refactored_chunk['SINTOMA_CLASSIFIC'] | (new_chunk[symptom]==1)).apply(
+                lambda x: 'GRAVE' if x else None  # Vai ter a classificação do sintoma como GRAVE
+            )
+        
+        for symptom in DANGER_SYMTOMPS_DICT['worrying']:
+            # Se tiver alguém com sintomas preocupantes
+            worrying_symtpoms_serie = (new_chunk[symptom]==1).apply(lambda x: 'PREOCUPANTE' if x else None)
+            refactored_chunk['SINTOMA_CLASSIFIC'] = refactored_chunk['SINTOMA_CLASSIFIC'].combine_first(worrying_symtpoms_serie)
+        
 
-        # serious_symptoms_ages = new_chunk[DANGER_SYMTOMPS_DICT['serious']] == 1
-        # worrying_symptoms_ages = new_chunk[new_chunk['WORRYING'] == 1][AGE_COLUMN]
-        # common_symptoms_ages = new_chunk[new_chunk['COMMON'] == 1][AGE_COLUMN]
-
-        # print(serious_symptoms_ages)
-        # print(worrying_symptoms_ages)
-        # print(common_symptoms_ages)
-
-
+        common_symtpoms_serie = pd.Series(np.tile(['COMUM'], len(refactored_chunk['SINTOMA_CLASSIFIC'])))
+        
+        refactored_chunk['SINTOMA_CLASSIFIC'] = refactored_chunk['SINTOMA_CLASSIFIC'].combine_first(common_symtpoms_serie)
+        
+        print(refactored_chunk['SINTOMA_CLASSIFIC'])
+    
     with concurrent.futures.ThreadPoolExecutor() as executor:
         threads_running: list[concurrent.futures.Future] = []
 
