@@ -35,37 +35,22 @@ def hypothesis3(chunks: TextFileReader) -> None:
     }
 
 
-    def get_chunk_informations(chunk: pd.DataFrame):
+    def get_chunk_informations(chunk: pd.DataFrame) -> pd.DataFrame:
         """Função resposável por pegar as informações que posteriormente usarei para calcular o R²
 
         Args:
             chunk (pd.DataFrame): Dataframe que eu vou pegar as informações
+
+        Returns:
+            (pd.Dataframe): Um Dataframe contendo as idades associadas com a coluna de CLASSIFICAÇÃO DOS SINTOMAS
         """
         new_chunk = filter_dataset(chunk)[[  # Eu pego o chunk filtrado e utilizo apenas as colunas de sintomase  idade que eu defini anterioremente
             AGE_COLUMN,
-            *DANGER_SYMTOMPS_DICT['common'],
+            *DANGER_SYMTOMPS_DICT['common'],            
             *DANGER_SYMTOMPS_DICT['worrying'],
             *DANGER_SYMTOMPS_DICT['serious'],
         ]]
-
-        informations_to_return = {
-            'common': {
-                'sum': 0,
-                'square_sum': 0,
-                'length': 0
-            },
-            'worrying': {
-                'sum': 0,
-                'square_sum': 0,
-                'length': 0
-            },
-            'serious': {
-                'sum': 0,
-                'square_sum': 0,
-                'length': 0
-            },
-        }
-
+        
         # O Novo chunk que vou trabalhar que tem apenas a coluna de idades e uma que vai dizer a classificação dos sintomas do paciente
         refactored_chunk = pd.DataFrame(new_chunk[AGE_COLUMN], columns=[AGE_COLUMN, SYMPTO_CLASSFICIATION])
 
@@ -91,28 +76,10 @@ def hypothesis3(chunks: TextFileReader) -> None:
         # O resto que não teve classificação, tem apenas sintomas comuns ou são assintomáticos, então eu crio
         # uma série que tem o tamanho do meu dataset e preencho todas as classificações sobrantes como COMUM
 
-        # Separando as séries de booleanos que usarei para filtrar os pacientes em suas respectivas classificações de sintomas
-        boolean_serious_classification_series = refactored_chunk[SYMPTO_CLASSFICIATION] == 'GRAVE'
-        boolean_worries_classification_series = refactored_chunk[SYMPTO_CLASSFICIATION] == 'PREOCUPANTE'
-        boolean_common_classification_series = refactored_chunk[SYMPTO_CLASSFICIATION] == 'COMUM'
-        
-        # Pegando quantos pacientes de cada classificação há
-        informations_to_return['serious']['length'] = len(refactored_chunk[boolean_serious_classification_series])
-        informations_to_return['worrying']['length'] = len(refactored_chunk[boolean_worries_classification_series])
-        informations_to_return['common']['length'] = len(refactored_chunk[boolean_common_classification_series])
+        return refactored_chunk
 
-        # Pegando a soma das idades
-        informations_to_return['serious']['sum'] = (refactored_chunk[boolean_serious_classification_series])[AGE_COLUMN].sum()
-        informations_to_return['worrying']['sum'] = (refactored_chunk[boolean_worries_classification_series])[AGE_COLUMN].sum()
-        informations_to_return['common']['sum'] = (refactored_chunk[boolean_common_classification_series])[AGE_COLUMN].sum()
 
-        # Pegando a soma ao quadrado das idades
-        informations_to_return['serious']['square_sum'] = (refactored_chunk[boolean_serious_classification_series])[AGE_COLUMN].pow(2).sum()
-        informations_to_return['worrying']['square_sum'] = (refactored_chunk[boolean_worries_classification_series])[AGE_COLUMN].pow(2).sum()
-        informations_to_return['common']['square_sum'] = (refactored_chunk[boolean_common_classification_series])[AGE_COLUMN].pow(2).sum()
-
-        return informations_to_return
-
+    chunks_information_list = []  # Lista com as informações que vou obter de cada chunk
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
         threads_running: list[concurrent.futures.Future] = []
@@ -129,5 +96,7 @@ def hypothesis3(chunks: TextFileReader) -> None:
         concurrent.futures.wait(threads_running)  # Espero todas rodarem
 
         for pending_thread in threads_running:  # Pego o resultado de cada uma
-            pending_thread.result()
+            chunks_information_list.append(pending_thread.result())
 
+    
+    unic_df = pd.concat(chunks_information_list, ignore_index=True)
