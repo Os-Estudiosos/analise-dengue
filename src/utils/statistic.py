@@ -107,50 +107,6 @@ def contigency_coefficient(qualitative_variable_1: pd.Series, qualitative_variab
     return sqrt(qui_quadrado/(qui_quadrado+n))
 
 
-def n_sets_mean(sets: set[pd.Series|list|tuple|set]):
-    """Calcula a média da união de N conjuntos
-
-    Args:
-        sets (set[pd.Series | list | tuple | set]): O conjunto que vai ter todos os conjuntos que vou calcular a média
-
-    Raises:
-        TypeError: Levanta esse erro se o parâmetro passado não for uma série pandass, ou uma lista, ou uma tupla, ou um conjunto
-    """
-    # if not isinstance(sets, pd.Series) or not isinstance(sets, list) or not isinstance(sets, tuple) or not isinstance(sets, set):
-    #     raise TypeError('Você não forneceu parâmetros adequados')
-    
-    # medias = []
-
-    # for s in sets:
-    #     medias.append({
-    #         'med': sum(s),
-    #         'qtd': len(s)
-    #     })
-    
-    # media_final = 0
-
-    # for med_info in medias:
-    #     media_final += med_info[]
-
-
-def calculate_semi_variance(df: pd.DataFrame, quantitative_variable: str, quanlitative_variable: str = None) -> dict:
-    """Essa função é responsável por calcular uma 'Semi-Variância', que será posteriormente utilizada no cálculo da variância de todo um conjunto
-
-    Args:
-        df (pd.DataFrame): Dataframe contendo as variáveis
-        quantitative_variable (str): Variável quantitativa que vai ter a 'Semi-Variância' calculada
-        qualitative_variable (str, optional): Variável qualitativa que restringe a variável quantitativa. Defaults to None.
-
-    Raises:
-        TypeError: _description_
-
-    Returns:
-        (dict): Dicionário contendo as informações que vou utilizar para calcular a variância total
-    """
-
-
-
-
 # Create this function to filter the most taken exam
 def top_3_counts_numpy(df: pd.DataFrame, columns: list|str) -> list[tuple]:
     """Analyzes the DataFrame to identify the top 3 most taken exams based on non-null values.
