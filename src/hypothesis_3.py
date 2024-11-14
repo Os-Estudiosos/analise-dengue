@@ -11,11 +11,11 @@ from src.utils.reading import processing_total_dataset
 
 
 @measure_function_execution
-def main(year):
+def main():
     # Vou ler o dataset por chunks
-    chunks = pd.read_csv(os.path.join(DATASET_LOCAL(), f'sinan_dengue_sample_{year}.csv'), low_memory=False, chunksize=CHUNKS_SIZE)
+    chunks = pd.read_csv(os.path.join(DATASET_LOCAL(), f'sinan_dengue_sample_total.csv'), low_memory=False, chunksize=CHUNKS_SIZE)
 
     hypothesis3(chunks)
 
 if __name__ == "__main__":
-    main(2024)
+    main()
