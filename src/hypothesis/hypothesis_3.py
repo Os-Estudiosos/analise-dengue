@@ -1,8 +1,12 @@
 import pandas as pd
 from pandas.io.parsers import TextFileReader
+import seaborn as sns
+import matplotlib.pyplot as plt
 import numpy as np
+import os
 import concurrent
 from src.filtering import filter_dataset
+from config import *
 # from src.utils.statistic import contigency_coefficient
 # from src.config import OUTPUT_FOLDER
 
@@ -100,3 +104,36 @@ def hypothesis3(chunks: TextFileReader) -> None:
 
     
     unic_df = pd.concat(chunks_information_list, ignore_index=True)
+
+
+    # Dividindo o dataframe total nos valores possiveis da
+    # variável qualitativa CLASSIFICAÇÃO DO SINTOMA
+    people_with_serious_symptoms = unic_df[unic_df[SYMPTO_CLASSFICIATION] == 'GRAVE']
+    people_with_worries_symptoms = unic_df[unic_df[SYMPTO_CLASSFICIATION] == 'PREOCUPANTE']
+    people_with_common_symptoms = unic_df[unic_df[SYMPTO_CLASSFICIATION] == 'COMUM']
+
+    # Calculando a variância média
+    mean_variance = (
+        people_with_common_symptoms[AGE_COLUMN].var()*len(people_with_common_symptoms[AGE_COLUMN])
+        +
+        people_with_serious_symptoms[AGE_COLUMN].var()*len(people_with_serious_symptoms[AGE_COLUMN])
+        +
+        people_with_worries_symptoms[AGE_COLUMN].var()*len(people_with_worries_symptoms[AGE_COLUMN])
+    ) / len(unic_df[AGE_COLUMN])
+
+    # Calculando o R²
+    squared_r = 1 - (mean_variance/unic_df[AGE_COLUMN].var())
+
+    print(squared_r)
+
+    # Plotando os gráficos de boxplot
+    sns.set_style('whitegrid')
+
+    plt.figure(figsize=(10,6))
+    sns.boxplot(data=unic_df, x=SYMPTO_CLASSFICIATION, y=AGE_COLUMN, palette='pastel', hue=SYMPTO_CLASSFICIATION, legend=False)
+
+    plt.xlabel('Classificação dos Sintomas')  # Nome do eixo x
+    plt.ylabel('Idades')     # Nome do eixo y
+    plt.title('Distribuição das idades por cada categoria de Sintoma')  # Título do gráfico
+    plt.savefig(os.path.join(OUTPUT_FOLDER(), 'ages_per_symptom_classification.png'), format='png')
+    plt.show()

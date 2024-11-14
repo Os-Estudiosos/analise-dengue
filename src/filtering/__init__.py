@@ -69,7 +69,9 @@ def filter_dataset(df: pd.DataFrame) -> pd.DataFrame:
     if len(not_in_columns) > 0:
         raise ValueError(f'The passed dataframe doesn\'t have all the required columns mentioned in the config: {not_in_columns}')
 
-
     df['IDADE_ANOS'] = df['NU_IDADE_N'].apply(convert_age)
+
+    # Algumas colunas da idade estão bugadas, então vou remover
+    df = df[df['IDADE_ANOS'] <= 120]
     
     return df[[*REQUIRED_COLUMNS, 'IDADE_ANOS']]
