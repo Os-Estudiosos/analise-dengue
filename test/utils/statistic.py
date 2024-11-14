@@ -5,7 +5,7 @@ import os
 import sys
 sys.path.append(os.getcwd())
 
-from src.utils.statistic import chi_square_test, crammer_V, contigency_coefficient, top_3_counts_numpy
+from src.utils.statistic import chi_square_test, crammer_V, contigency_coefficient, top_3_counts_numpy, n_sets_mean
 from src.utils.random import generate_random_dataframe
 
 
@@ -137,7 +137,6 @@ class ContigencyCoefficientTest(unittest.TestCase):
             contigency_coefficient(df1, 'Olá')
             contigency_coefficient(25, 38)
             contigency_coefficient("Apenas um Teste", 38)
-
 
 class Top3CountsNumpyTest(unittest.TestCase):
     def test_wrong_arguments(self):

@@ -18,29 +18,6 @@ def processing_partial_dataset(filepath:str, usecols:list, chunksize:int=1) -> p
 
         Returns:
             pd.DataFrame: Output the final processed dataframe
-
-        >>> processing_total_dataframe("analise-dengue/data/sinan_dengue_sample_total.csv", usecols=colums_analyze, chunksize=30000)
-        DT_SIN_PRI  FEBRE  MIALGIA  CEFALEIA  EXANTEMA  VOMITO  NAUSEA  CONJUNTVIT
-        0   2021-02-20    1.0      1.0       1.0       1.0     1.0     1.0         2.0
-        1   2021-02-20    1.0      2.0       1.0       1.0     2.0     2.0         1.0
-        2   2021-01-12    1.0      1.0       1.0       2.0     2.0     1.0         2.0
-        3   2021-01-29    1.0      2.0       1.0       2.0     2.0     1.0         2.0
-        4   2021-02-26    1.0      2.0       1.0       1.0     2.0     1.0         2.0
-        5   2021-02-15    1.0      1.0       1.0       1.0     1.0     2.0         1.0
-        6   2021-01-27    1.0      2.0       1.0       2.0     2.0     2.0         1.0
-        7   2021-02-17    1.0      2.0       1.0       2.0     2.0     1.0         2.0
-        8   2021-02-05    1.0      2.0       1.0       2.0     2.0     2.0         2.0
-        9   2021-03-08    1.0      2.0       1.0       2.0     2.0     1.0         2.0
-        10  2021-02-15    1.0      1.0       1.0       2.0     2.0     2.0         2.0
-        11  2021-03-08    1.0      1.0       1.0       1.0     2.0     2.0         2.0
-        12  2021-02-15    1.0      1.0       1.0       2.0     2.0     1.0         2.0
-        13  2021-01-23    1.0      1.0       1.0       2.0     2.0     1.0         1.0
-        14  2021-03-25    1.0      2.0       1.0       2.0     2.0     2.0         2.0
-        15  2021-03-07    1.0      1.0       1.0       2.0     2.0     1.0         2.0
-        16  2021-03-05    1.0      2.0       1.0       1.0     2.0     2.0         2.0
-        17  2021-01-23    1.0      1.0       1.0       2.0     2.0     2.0         1.0
-        18  2021-01-15    1.0      1.0       1.0       1.0     2.0     1.0         1.0
-        19  2021-01-08    2.0      2.0       1.0       2.0     2.0     1.0         2.0
         """
 
         # Read the dataset with chunks
@@ -59,7 +36,7 @@ def processing_partial_dataset(filepath:str, usecols:list, chunksize:int=1) -> p
         return df_total
 
 
-def processing_total_dataset() -> pd.DataFrame:
+def processing_total_dataset(complete: bool = True) -> pd.DataFrame:
     """
     Function that will process the total dataset costing less memory, uses the columns specified on the CONFIG file
 
@@ -96,6 +73,10 @@ def processing_total_dataset() -> pd.DataFrame:
             for pending_thread in threads_running:
                 dataframes.append(pending_thread.result())
 
-        return pd.concat(dataframes)
+        if complete:
+            return pd.concat(dataframes)
+        else:
+            print("Chunks carregados")
+            return dataframes
     except Exception as e:
-        print(e)
+        raise Exception from e
