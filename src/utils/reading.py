@@ -45,7 +45,7 @@ def processing_total_dataset(complete: bool = True) -> pd.DataFrame:
     """
     try:
         # Read the dataset with chunks
-        chunks = pd.read_csv(os.path.join(DATASET_LOCAL(), 'sinan_dengue_sample_2021.csv'), low_memory=False, chunksize=CHUNKS_SIZE)
+        chunks = pd.read_csv(os.path.join(DATASET_LOCAL(), 'sinan_dengue_sample_total.csv'), low_memory=False, chunksize=CHUNKS_SIZE)
         
         # Load the file with the uf codes and acronyms
         cities = pd.read_csv(os.path.join(FILES_FOLDER(), "ufs.csv"), usecols=["SG_UF_NOT","SIGLA_UF"], low_memory=False)
@@ -76,6 +76,7 @@ def processing_total_dataset(complete: bool = True) -> pd.DataFrame:
         if complete:
             return pd.concat(dataframes)
         else:
+            print("Chunks carregados")
             return dataframes
     except Exception as e:
-        print(e)
+        raise Exception from e

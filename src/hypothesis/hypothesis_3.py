@@ -71,12 +71,7 @@ def hypothesis3(chunks: TextFileReader) -> None:
             # Combino com a nova Série dos sintomas preocupantes, assim, eu classifico apenas aqueles que
             # Tem sintomas preocupantes mas não tem nenhum sintoma grave
         
-
-        common_symtpoms_serie = pd.Series(np.tile(
-            ['COMUM'],
-            len(refactored_chunk[SYMPTO_CLASSFICIATION])
-        ))
-        refactored_chunk[SYMPTO_CLASSFICIATION] = refactored_chunk[SYMPTO_CLASSFICIATION].combine_first(common_symtpoms_serie)
+        refactored_chunk[SYMPTO_CLASSFICIATION] = refactored_chunk[SYMPTO_CLASSFICIATION].apply(lambda x: 'COMUM' if not x else x)
         # O resto que não teve classificação, tem apenas sintomas comuns ou são assintomáticos, então eu crio
         # uma série que tem o tamanho do meu dataset e preencho todas as classificações sobrantes como COMUM
 
@@ -132,8 +127,12 @@ def hypothesis3(chunks: TextFileReader) -> None:
     plt.figure(figsize=(10,6))
     sns.boxplot(data=unic_df, x=SYMPTO_CLASSFICIATION, y=AGE_COLUMN, palette='pastel', hue=SYMPTO_CLASSFICIATION, legend=False)
 
-    plt.xlabel('Classificação dos Sintomas')  # Nome do eixo x
-    plt.ylabel('Idades')     # Nome do eixo y
-    plt.title('Distribuição das idades por cada categoria de Sintoma')  # Título do gráfico
+    sns.despine(top=True, right=True)
+
+    plt.ylim(0, 120)
+
+    plt.xlabel('Classificação dos Sintomas')
+    plt.ylabel('Idades')
+    plt.title('Distribuição das idades por cada categoria de Sintoma')
     plt.savefig(os.path.join(OUTPUT_FOLDER(), 'ages_per_symptom_classification.png'), format='png')
     plt.show()
