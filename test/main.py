@@ -2,11 +2,12 @@
 import unittest
 
 # Testes das funções estatísticas
-from utils.statistic import ChiSquareTest, CrammerVTest, ContigencyCoefficientTest, Top3CountsNumpyTest
+from utils.statistic import *
 
 # Testes das funções de tempo
-from utils.timing import MeasureFunctionExecutionTest
+# from utils.timing import MeasureFunctionExecutionTest
+from filtering import AgeConversionTest
 
 
 if __name__ == "__main__":
-    unittest.main()
+    unittest.main(verbosity=2)
