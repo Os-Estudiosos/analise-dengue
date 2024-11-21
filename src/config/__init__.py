@@ -51,6 +51,8 @@ REQUIRED_COLUMNS = [  # Required columns for every hypothesis
     # Colunas de Exames
     'RESUL_NS1', 'AUTO_IMUNE', 'RESUL_PCR_', 'LACO', 'RESUL_VI_N',
 
+    'HISTOPA_N', 'IMUNOH_N',
+
     # Colunas Gerais
     'SG_UF_NOT','CLASSI_FIN', 'HOSPITALIZ', 'EVOLUCAO',  'NU_IDADE_N',
     'HEMATOLOG', 'RESUL_SORO', 'SIGLA_UF', 'SG_UF_NOT', 'ID_OCUPA_N', 'SOROTIPO'

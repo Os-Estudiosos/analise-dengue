@@ -5,6 +5,7 @@ import sys
 sys.path.append(os.getcwd())
 from src.hypothesis.hypothesis_5 import hypothesis5
 from src.utils.reading import processing_total_dataset
+from src.utils.plots.h4_plots import plot_proportions
 
 
 def main():
