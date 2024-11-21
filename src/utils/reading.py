@@ -7,6 +7,35 @@ from src.config import DATASET_LOCAL, CHUNKS_SIZE, FILES_FOLDER
 from src.filtering import filter_dataset
 
 
+def processing_partial_dataset(filepath:str, usecols:list, chunksize:int=1) -> pd.DataFrame:
+        """
+        Function that will process the total dataframe costing less memory
+
+        Args:
+            filepath (str): Add the file path
+            usecols (list): Add a list with the columns that you will use
+            chunksize (int, optional): Define the size of the chunks. Defaults to 1.
+
+        Returns:
+            pd.DataFrame: Output the final processed dataframe
+        """
+
+        # Read the dataset with chunks
+        df = pd.read_csv(filepath, usecols=usecols, low_memory=False, chunksize=chunksize)
+
+        # Set a empty list to keep the chunks
+        df_list = []
+
+        # Append each chunk in a list
+        for chunk in df:
+            df_list.append(chunk)
+
+        # Concatenate the list in a dataframe
+        df_total = pd.concat(df_list, ignore_index=True)
+
+        return df_total
+
+
 def processing_total_dataset(complete: bool = True, concatenated_dfs: bool = False) -> pd.DataFrame:
     """Função que processa todo o dataframe
 
