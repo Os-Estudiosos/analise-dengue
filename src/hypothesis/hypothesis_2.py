@@ -47,11 +47,11 @@ def hypothesis2_part1(df:pd.DataFrame):
 
     # Plotando os histogramas do total de casos de dengue de cada ano por mês
     order = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"]
-    dfs1 = [df1, df2, df3, df4]
+    dfs1 = [df1, df2, df3]
     ano = 2021
     for data in dfs1:
         sns.set_style("white")
-        sns.countplot(data=data, x="MESES", order=order, palette='rocket', width=1, hue="MESES")
+        sns.countplot(data=data, x="MESES", order=order, palette=['lightblue' if cat in ['Mar', 'Abr', 'Mai'] else 'gray' for cat in order], width=1)
         plt.title(f"CASOS DE DENGUE {ano} (dividido por mês)")
         plt.xlabel("Mês")
         plt.ylabel("Número de ocorrências")
@@ -60,6 +60,13 @@ def hypothesis2_part1(df:pd.DataFrame):
         # Salvando o plot na pasta output
         #plt.savefig(os.path.join(OUTPUT_FOLDER(), f"casos_dengue_{ano}.png"))
         ano +=1
+
+    sns.set_style("white")
+    sns.countplot(data=df4, x="MESES", order=order, palette=['lightblue' if cat in ['Fev', 'Mar'] else 'gray' for cat in order], width=1)
+    plt.title(f"CASOS DE DENGUE 2024 (dividido por mês)")
+    plt.xlabel("Mês")
+    plt.ylabel("Número de ocorrências")
+    plt.show()
 
     # Plotando o histograma com a linha KDE do período total para a visualização do padrão
     sns.set_style("white")
@@ -78,7 +85,6 @@ def hypothesis2_part2(df:pd.DataFrame):
 
     # Fazendo a tabela com o total de casos, total de óbitos e taxa de mortalidade por cada estado 
     dengue = count_dengue_cases_by_state(df, ["SG_UF_NOT", "EVOLUCAO", "SIGLA_UF"])
-    print(dengue)
 
     # Salvando a tabela na pasta output
     #dengue.to_csv(os.path.join(OUTPUT_FOLDER(), "tabela_por_estado.csv"), index=False)
