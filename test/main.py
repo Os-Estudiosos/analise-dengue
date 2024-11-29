@@ -5,7 +5,7 @@ import unittest
 from utils.statistic import *
 
 # Testes das funções de tempo
-# from utils.timing import MeasureFunctionExecutionTest
+from utils.timing import MeasureFunctionExecutionTest
 from filtering import AgeConversionTest
 
 

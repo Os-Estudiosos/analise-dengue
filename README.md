@@ -9,10 +9,10 @@ Esse trabalho tem como objetivo analisar e responder hipóteses acerca do datase
 ## Estrutura do Projeto
 
 ```
-|- public
 |- data
 |- files
 |- output
+|- paper
 |- src
     |- config
     |- filtering
@@ -24,11 +24,12 @@ Esse trabalho tem como objetivo analisar e responder hipóteses acerca do datase
 - **Data**: Arquivos com os datasets a serem analisados
 - **Files**: Arquivos que foram úteis para o projeto
 - **Output**: Arquivos resultados da execução das funções de hipótese
+- **Paper**: Pasta contendo o código utilizado na elaboração do paper em PDF
 - **Src**: Arquivos principais
   - **Config**: Funções e variáveis de configuração
-  - **Utils**: Funções que podem ser úteis para desenvolvimento
+  - **Utils**: Funções que úteis para o desenvolvimento das hipóteses
   - **Hypothesis**: Módulo que tem as funções principais relacionadas a cada hipótese
-  - **Filtering**: Módulo de filtrgem do dataset
+  - **Filtering**: Módulo de filtragem do dataset
 - **Test**: Funções de teste unitário
 
 ## Como acessar os datasets?
@@ -42,31 +43,17 @@ Cada arquivo de hipótese deve ser executado separadamente, pois executar todos 
 Linux:
 
 ```
-python3 src/hypothesis_{i}py
+python3 src/h_{i}py
 ```
 
 Python:
 
 ```
-python src\hypothesis_{i}.py
+python src\h_{i}.py
 ```
 
 Algumas hipóteses geram gráficos, arquivos de CSV, e outras apenas fazem alguns cálculos, não necessariamente mostrando algo no output
 
 ## Onde se encontra o Paper?
 
-O Paper da análise pode ser encontrado dentro da pasta _**Paper**_
-
-## AVISO
-
-Alguns arquivos de hipóteses, começaram a dar erros durante a execução que não conseguimos entender a causa, porém conseguimos obter as informações necessárias para a análise dos dados.
-Arquivos que geram erros quando executados:
-
-- Hipótese 1
-- Hipótese 5
-
-Arquivos que estão rodando normalmente:
-
-- Hipóteses 2, 3, 4
-
-Frisando, mesmo que ao executar agora dê problema, isso aconteceu nos estágios finais de desenvolvimento, portanto conseguimos obter as informações necessárias para a análise e confecção do paper
+O Paper da análise pode ser encontrado dentro da pasta _**Paper**_ com o nome `Short Paper - A1.pdf`
