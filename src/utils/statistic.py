@@ -1,7 +1,6 @@
 """Módulo que contém funções úteis de estatística"""
 import pandas as pd
 import numpy as np
-from math import sqrt
 
 # Create this function to filter the most taken exam
 def top_3_counts_numpy(df: pd.DataFrame, columns: list|str) -> list[tuple]:
