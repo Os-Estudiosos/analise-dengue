@@ -51,22 +51,26 @@ def hypothesis2_part1(df:pd.DataFrame):
     ano = 2021
     for data in dfs1:
         sns.set_style("white")
-        sns.countplot(data=data, x="MESES", order=order, palette=['lightblue' if cat in ['Mar', 'Abr', 'Mai'] else 'gray' for cat in order], width=1)
+        sns.countplot(data=data, x="MESES", order=order, palette=['lightblue' if cat in ['Mar', 'Abr', 'Mai'] else 'gray' for cat in order], width=1, legend=False)
         plt.title(f"CASOS DE DENGUE {ano} (dividido por mês)")
         plt.xlabel("Mês")
         plt.ylabel("Número de ocorrências")
-        plt.show()
 
         # Salvando o plot na pasta output
-        #plt.savefig(os.path.join(OUTPUT_FOLDER(), f"casos_dengue_{ano}.png"))
+        plt.savefig(os.path.join(OUTPUT_FOLDER(), f"casos_dengue_{ano}.png"))
+        plt.clf()
         ano +=1
 
     sns.set_style("white")
-    sns.countplot(data=df4, x="MESES", order=order, palette=['lightblue' if cat in ['Fev', 'Mar'] else 'gray' for cat in order], width=1)
+    sns.countplot(data=df4, x="MESES", order=order, palette=['lightblue' if cat in ['Fev', 'Mar'] else 'gray' for cat in order], width=1, legend=False)
     plt.title(f"CASOS DE DENGUE 2024 (dividido por mês)")
     plt.xlabel("Mês")
     plt.ylabel("Número de ocorrências")
-    plt.show()
+
+    # Salvando o plot na pasta output
+    plt.savefig(os.path.join(OUTPUT_FOLDER(), "casos_dengue_2024.png"))
+    plt.clf()
+
 
     # Plotando o histograma com a linha KDE do período total para a visualização do padrão
     sns.set_style("white")
@@ -74,10 +78,9 @@ def hypothesis2_part1(df:pd.DataFrame):
     plt.title("CASOS DE DENGUE TOTAL (detalhado)")
     plt.xlabel("Período")
     plt.ylabel("Número de ocorrências")
-    plt.show()
 
     # Salvando o plot na pasta output
-    #plt.savefig(os.path.join(OUTPUT_FOLDER(), "casos_dengue_total.png"))
+    plt.savefig(os.path.join(OUTPUT_FOLDER(), "casos_dengue_total.png"))
 
 
 '''PART 2'''
@@ -87,7 +90,7 @@ def hypothesis2_part2(df:pd.DataFrame):
     dengue = count_dengue_cases_by_state(df, ["SG_UF_NOT", "EVOLUCAO", "SIGLA_UF"])
 
     # Salvando a tabela na pasta output
-    #dengue.to_csv(os.path.join(OUTPUT_FOLDER(), "tabela_por_estado.csv"), index=False)
+    dengue.to_csv(os.path.join(OUTPUT_FOLDER(), "tabela_por_estado.csv"), index=False)
 
     # Lendo o shapefile dos estados do Brasil e fazendo merge nas colunas para plotagem
     mapa_brasil = gpd.read_file(os.path.join(FILES_FOLDER(), "BR_UF_2022.shp"))
@@ -124,10 +127,10 @@ def hypothesis2_part2(df:pd.DataFrame):
         projection=gcrs.PlateCarree()
     )
     ax1.set_title("CASOS TOTAIS DE DENGUE NO BRASIL (2021-2024)", fontsize=18)
-    plt.show()
 
     # Salvando o plot na pasta output
-    #plt.savefig(os.path.join(OUTPUT_FOLDER(), "geoplot_total.png"))
+    plt.savefig(os.path.join(OUTPUT_FOLDER(), "geoplot_total.png"))
+    plt.clf()
 
     # Plotando o geoplot da taxa de mortalidade por estado
     ax2 = gplt.polyplot(
@@ -156,7 +159,7 @@ def hypothesis2_part2(df:pd.DataFrame):
         projection=gcrs.PlateCarree()
     )
     ax2.set_title("TAXA DE MORTALIDADE DA DENGUE NO BRASIL (2021-2024)", fontsize=18)
-    plt.show()
     
     # Salvando o plot na pasta output
-    #plt.savefig(os.path.join(OUTPUT_FOLDER(), "geoplot_mortalidade.png"))
+    plt.savefig(os.path.join(OUTPUT_FOLDER(), "geoplot_mortalidade.png"))
+    plt.clf()
