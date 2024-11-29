@@ -34,7 +34,8 @@ Esse trabalho tem como objetivo analisar e responder hipóteses acerca do datase
 
 ## Como acessar os datasets?
 
-Vá até o link: [Kaggle](https://www.kaggle.com/datasets/henriquerezermosqur/dados-sus-sinan-dengue-2021-2024), clique em Download e extraia os datasets na pasta **data** (são 4, relativos aos anos de 2021, 2022, 2023 e 2024). Depois, acesse o seguinte link: [Drive](https://drive.google.com/drive/folders/11MEDd8xSyRuERJ5zT6JofruelcOklTZk) e faça download do dataset unificado, e coloque no mesmo local
+Vá até o link: [Kaggle](https://www.kaggle.com/datasets/henriquerezermosqur/dados-sus-sinan-dengue-2021-2024), clique em Download e extraia os datasets na pasta **data** (são 4, relativos aos anos de 2021, 2022, 2023 e 2024).
+Depois, acesse o seguinte link: [Drive](https://drive.google.com/drive/folders/11MEDd8xSyRuERJ5zT6JofruelcOklTZk) e faça download do dataset unificado, e coloque no mesmo local, ou execute o arquivo `concatenar_datasets.py`
 
 ## Como realizar os testes?
 
