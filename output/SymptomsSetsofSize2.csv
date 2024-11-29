@@ -1,0 +1,137 @@
+Symptoms Set,Deaths,Occurrences,Ratio %
+Exantema | Renal,15,26,57.692307692307686
+Exantema | Hipertensão,18,31,58.06451612903226
+Exantema | Hematológico,16,26,61.53846153846154
+Exantema | Hepatopatia,22,32,68.75
+Conjuntivite | Renal,7,9,77.77777777777779
+Náusea | Hepatopatia,25,32,78.125
+Petequias | Renal,13,16,81.25
+Petequias | Hematológico,18,20,90.0
+Petequias | Leucopenia,219,242,90.49586776859503
+Exantema | Petequias,956,1043,91.65867689357621
+Febre | Petequias,3165,3418,92.59801053247513
+Exantema | Leucopenia,405,431,93.96751740139212
+Conjuntivite | Petequias,147,156,94.23076923076923
+Febre | Exantema,5838,6194,94.25250242169841
+Febre | Leucopenia,989,1049,94.28026692087703
+Vômito | Leucopenia,382,403,94.78908188585608
+Vômito | Petequias,1075,1114,96.49910233393177
+Conjuntivite | Leucopenia,63,64,98.4375
+Artrite | Hipertensão,10,10,100.0
+Artrite | Hematológico,13,13,100.0
+Petequias | Hepatopatia,20,20,100.0
+Vômito | Exantema,1863,1828,101.91466083150983
+Náusea | Hematológico,33,32,103.125
+Náusea | Petequias,805,763,105.50458715596329
+Febre | Renal,57,54,105.55555555555556
+Dor nas Costas | Hipertensão,18,17,105.88235294117648
+Vômito | Hepatopatia,36,34,105.88235294117648
+Dor nas Costas | Conjuntivite,143,135,105.92592592592594
+Exantema | Náusea,1355,1262,107.36925515055466
+Artralgia | Leucopenia,83,77,107.79220779220779
+Náusea | Leucopenia,301,279,107.88530465949822
+Vômito | Conjuntivite,295,272,108.45588235294117
+Náusea | Conjuntivite,304,280,108.57142857142857
+Artralgia | Hipertensão,12,11,109.09090909090908
+Febre | Conjuntivite,636,583,109.09090909090908
+Dor nas Costas | Leucopenia,82,75,109.33333333333333
+Náusea | Renal,21,19,110.5263157894737
+Hematológico | Renal,21,19,110.5263157894737
+Vômito | Febre,8640,7799,110.7834337735607
+Febre | Hepatopatia,93,83,112.04819277108433
+Petequias | Hipertensão,18,16,112.5
+Febre | Hematológico,93,82,113.41463414634146
+Exantema | Conjuntivite,289,254,113.77952755905511
+Artralgia | Renal,8,7,114.28571428571428
+Vômito | Renal,22,19,115.78947368421053
+Renal | Hipertensão,22,19,115.78947368421053
+Febre | Náusea,5769,4967,116.14656734447352
+Vômito | Náusea,4226,3630,116.41873278236913
+Mialgia | Petequias,1384,1179,117.38761662425784
+Mialgia | Hepatopatia,40,34,117.64705882352942
+Mialgia | Leucopenia,428,363,117.90633608815426
+Febre | Hipertensão,92,78,117.94871794871796
+Mialgia | Exantema,2674,2220,120.45045045045045
+Hematológico | Hipertensão,22,18,122.22222222222223
+Artralgia | Petequias,221,180,122.77777777777779
+Mialgia | Renal,32,26,123.07692307692308
+Hepatopatia | Renal,21,17,123.52941176470588
+Mialgia | Hipertensão,46,37,124.32432432432432
+Cefaleia | Hipertensão,46,37,124.32432432432432
+Artrite | Renal,10,8,125.0
+Dor nas Costas | Dor Retro,363,288,126.04166666666667
+Conjuntivite | Artrite,111,88,126.13636363636364
+Conjuntivite | Dor Retro,144,114,126.3157894736842
+Hepatopatia | Hipertensão,27,21,128.57142857142858
+Exantema | Artrite,236,183,128.96174863387978
+Náusea | Artrite,320,247,129.55465587044534
+Conjuntivite | Hematológico,13,10,130.0
+Artralgia | Hematológico,13,10,130.0
+Hematológico | Hepatopatia,26,20,130.0
+Náusea | Dor nas Costas,761,582,130.75601374570448
+Exantema | Dor nas Costas,382,292,130.82191780821915
+Artrite | Leucopenia,76,58,131.0344827586207
+Dor nas Costas | Petequias,278,212,131.13207547169813
+Vômito | Hematológico,42,32,131.25
+Náusea | Hipertensão,37,28,132.14285714285714
+Febre | Mialgia,11152,8409,132.61981210607684
+Mialgia | Náusea,3188,2394,133.16624895572264
+Dor nas Costas | Artrite,252,189,133.33333333333331
+Mialgia | Conjuntivite,368,276,133.33333333333331
+Vômito | Hipertensão,39,29,134.48275862068965
+Cefaleia | Exantema,1938,1400,138.42857142857144
+Vômito | Mialgia,3757,2693,139.50984032677312
+Dor nas Costas | Artralgia,298,213,139.90610328638496
+Cefaleia | Leucopenia,323,230,140.43478260869566
+Petequias | Dor Retro,340,242,140.49586776859505
+Cefaleia | Conjuntivite,337,239,141.00418410041843
+Artralgia | Dor Retro,312,221,141.1764705882353
+Vômito | Dor nas Costas,677,476,142.22689075630254
+Febre | Dor nas Costas,1472,1026,143.46978557504872
+Vômito | Artralgia,412,287,143.55400696864112
+Conjuntivite | Artralgia,111,77,144.15584415584414
+Mialgia | Cefaleia,6627,4558,145.3927161035542
+Cefaleia | Dor nas Costas,1098,752,146.01063829787233
+Náusea | Artralgia,427,291,146.7353951890034
+Mialgia | Dor nas Costas,1095,745,146.9798657718121
+Exantema | Artralgia,346,235,147.23404255319147
+Cefaleia | Petequias,1097,742,147.84366576819409
+Cefaleia | Hematológico,37,25,148.0
+Vômito | Artrite,315,212,148.58490566037736
+Febre | Artrite,724,486,148.97119341563786
+Artrite | Petequias,200,134,149.2537313432836
+Cefaleia | Artralgia,695,465,149.46236559139786
+Dor nas Costas | Hepatopatia,15,10,150.0
+Febre | Artralgia,1128,752,150.0
+Artrite | Dor Retro,206,137,150.36496350364962
+Cefaleia | Náusea,2772,1834,151.14503816793894
+Artrite | Artralgia,217,143,151.74825174825176
+Febre | Cefaleia,9211,6028,152.80358327803583
+Mialgia | Artrite,552,360,153.33333333333334
+Mialgia | Artralgia,881,573,153.7521815008726
+Leucopenia | Hipertensão,17,11,154.54545454545453
+Náusea | Dor Retro,747,482,154.9792531120332
+Exantema | Dor Retro,513,327,156.88073394495413
+Leucopenia | Dor Retro,137,87,157.47126436781608
+Dor nas Costas | Hematológico,16,10,160.0
+Vômito | Cefaleia,3224,1987,162.2546552591847
+Dor nas Costas | Renal,13,8,162.5
+Dor Retro | Renal,13,8,162.5
+Cefaleia | Renal,26,16,162.5
+Mialgia | Dor Retro,1372,844,162.55924170616115
+Cefaleia | Artrite,508,311,163.34405144694534
+Dor Retro | Hipertensão,18,11,163.63636363636365
+Febre | Dor Retro,1878,1135,165.4625550660793
+Cefaleia | Dor Retro,1333,802,166.20947630922694
+Mialgia | Hematológico,50,30,166.66666666666669
+Vômito | Dor Retro,704,421,167.2209026128266
+Cefaleia | Hepatopatia,39,23,169.56521739130434
+Artrite | Hepatopatia,14,8,175.0
+Conjuntivite | Hipertensão,14,7,200.0
+Artralgia | Hepatopatia,14,7,200.0
+Leucopenia | Hematológico,23,11,209.0909090909091
+Dor Retro | Hematológico,17,8,212.5
+Dor Retro | Hepatopatia,13,6,216.66666666666666
+Leucopenia | Hepatopatia,18,6,300.0
+Leucopenia | Renal,13,4,325.0
+Conjuntivite | Hepatopatia,15,4,375.0
