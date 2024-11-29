@@ -146,6 +146,3 @@ def top_3_counts_numpy(df: pd.DataFrame, columns: list|str) -> list[tuple]:
     top_3 = sorted(counts.items(), key=lambda x: x[1], reverse=True)[:3]
     
     return top_3
-
-df = pd.read_csv('sinan_dengue_sample_total.csv', low_memory=False)
-#print(analyze_case_days_open(df, date_limit='30/11/2022'))
