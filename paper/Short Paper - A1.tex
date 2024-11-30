@@ -1,80 +1,158 @@
-\documentclass[a4paper,12pt]{article}
+\documentclass[a4paper, 12pt, twoside]{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%% PACOTES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[inner = 3cm, outer = 2cm, top = 3cm, bottom= 2cm]{geometry}
 \usepackage[utf8]{inputenc}
-\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{hyphenat}
+\usepackage{lmodern}
 \usepackage{graphicx}
+\usepackage{url} % Pacote para formatar URLs
+\usepackage{nomencl} 
+\usepackage{color}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{lipsum}	
+\usepackage{amsfonts,amsmath,amssymb}
 \usepackage{booktabs}
-\usepackage{subfigure}
-\usepackage{subcaption}
+\nocite{*}
+\bibliographystyle{plain}
+\bibliography{referencias}
+
+
+% Configuração dos parágrafos
+\usepackage{indentfirst}
+\setlength{\parindent}{1.25cm}
+
+% Configuração do espaçamento
+\usepackage{setspace}
+
+% Configuração de alinhamento de texto
+\usepackage{ragged2e}
+
+% Configuração de numeração de página
+\usepackage{fancyhdr}
+\fancyhf{}
+\rhead{\thepage}
+\cfoot{}
+\renewcommand{\headrulewidth}{0pt} % zera linha de cabeçalho
+\pagestyle{fancy}
+\setlength{\headheight}{15pt}
+
+% Configuração da Fonte
+\usepackage{times} % Fonte: Times New Roman 
+
+\usepackage[xcolor]{xcolor}
+
+% Formatando Sections
+\usepackage{mfirstuc}
+
+\usepackage{titlesec}
+\titleformat{\section}{\normalfont\fontsize{12}{12}\bfseries\MakeUppercase}{\thesection}{0.5em}{}
+
+\titleformat{\subsection}{\normalfont\fontsize{12}{12}\bfseries}{\thesubsection}{0.5em}{\capitalisewords}
+
+\titleformat{\subsubsection}{\normalfont\fontsize{12}{12}\bfseries\itshape}{\thesubsubsection}{0.5em}{\capitalisewords}
+
+%PACOTE DE CITAÇÕES
+\usepackage[style=abnt,backend=biber]{biblatex} % Usa biblatex para citações e referências
+\addbibresource{referencias.bib} % Nome do arquivo .bib
+\usepackage{changepage}
+\usepackage{ifoddpage}
+
+% Define ambiente quote para citações diretas com mais de 3 linhas
+\newenvironment{myquote}{\par\fontsize{10pt}{12pt}\selectfont\begin{adjustwidth}{4cm}{0pt}}{\end{adjustwidth}\par}
+
+% PACOTES ESSENCIAIS
+\usepackage{graphicx}
 \usepackage{float}
-\usepackage{url}
-\graphicspath{ {./images/} }
+\usepackage{caption}
+\usepackage{xurl}
+\usepackage{hyperref}
+
+% Define o tamanho da fonte para as legendas
+\DeclareCaptionFont{mycaptionfont}{\fontsize{10pt}{12pt}\selectfont}
+
+% Aplica o tamanho da fonte definido às legendas de figuras
+\captionsetup{font=mycaptionfont}
+
+% Redefine o separador das legendas para travessão (-)
+\DeclareCaptionLabelSeparator{myhyphen}{ --- }
+\captionsetup{font=mycaptionfont, labelsep=myhyphen}
+
+% Preencha as informações do título, subtítulo, autor e orientador aqui
+\newcommand{\titulo}{Análise de casos de Dengue no Brasil: impactos, sintomas e a influência dos casos na Pandemia da COVID-19}
+
+\newcommand{\orientador}{Rafael de Pinho André}
+\newcommand{\autor}{Alex Júnio Maia de Oliveira}
+\newcommand{\autordois}{Bruno Ferreira  Salvi}
+\newcommand{\autortres}{João Pedro Jerônimo de Oliveira}
+\newcommand{\autorquatro}{Matheus Vilarino de Sousa Pinto}
+\newcommand{\autorcinco}{Thalis Ambrosim Falqueto}
+
+\begin{document} %Início do Documento
+
+\singlespacing % espaçamento simples
+\justifying % texto justificado
+
+%%%%%%%%%%%%%%%%%%%%%%%% CONFIG. DO TÍTULO %%%%%%%%%%%%%%%%%%%%%%%%
+
+\vspace*{0.5cm} %Espaçamento Superior do Título
+\begin{center} %Inicia a centralização
+\textbf{\MakeUppercase{\titulo}}       
+\end{center} %Finaliza a centralização
+
+%%%%%%%%%%%%%%%%%%%%%%%%% AUTORES E ORIENTADOR %%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{flushright}
+\orientador \\
+
+\autor  \\
+\autordois  \\
+\autortres  \\
+\autorquatro  \\
+\autorcinco \\
+ 
+\end{flushright}
+
+%%%%%%%%%%%%%%%%%%%%% RESUMO E ABSTRACT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{center}
+\vspace*{0.5cm}
+\textbf{\MakeUppercase{Resumo}}
+\end{center}
 
 
-\title{\textbf{Análise de casos de Dengue no Brasil: impactos, sintomas e a influência dos casos na Pandemia da COVID-19}}
+\noindent 
+O presente artigo tem como objetivo geral analisar o conjunto de dados disponibilizado pelo SINAN (Sistema de Informação de Agravos de Notificação), coletado pelo Sistema Único de Saúde (SUS), referente aos casos de dengue registrados no Brasil entre 2021 e 2024. Foram elaboradas cinco hipóteses principais para investigar possíveis correlações entre as variáveis do dataset, com o objetivo de gerar insights que contribuam para uma compreensão mais profunda dos casos de dengue no período analisado. A metodologia envolve etapas como o pré-processamento dos dados, a análise exploratória e a validação ou refutação de hipóteses, utilizando técnicas de estatística descritiva e visualização de dados. O estudo também busca identificar padrões e observações relevantes, empregando ferramentas nativas do \emph{Python}, como \emph{pandas} e \emph{numpy}, além de bibliotecas de visualização como \emph{matplotlib}, \emph{seaborn} e \emph{streamlit}.  
 
-\author{
-    \normalsize
-    \textbf{Alex Júnio Maia de Oliveira (aluno)} \\ 
-    \normalsize
-    \textbf{Bruno Ferreira  Salvi (aluno)} \\
-    \normalsize
-    \textbf{João Pedro Jerônimo de Oliveira (aluno)} \\
-    \normalsize
-    \textbf{Matheus Vilarino de Sousa Pinto (aluno)} \\
-    \normalsize
-    \textbf{Thalis Ambrosim Falqueto (aluno)} \\
-    \normalsize
-    \textbf{Orientador: Rafael de Pinho André} \\
-    \normalsize
-    \ Fundação Getúlio Vargas - FGV \\
-    \normalsize
-    \ Graduação em Ciência de Dados e Inteligência Artificial
-}
-\date {\today}
-
-\begin{document}
-
-\maketitle
-
-\noindent\textbf{RESUMO} \\ \\O artigo tem como objetivo geral o estudo de um conjunto de dados disponibilizado pelo SINAN (Sistema de Informação de Agravos de Notificação) relacionados a uma coleta feita pelo Sistema Único de Saúde, referente a dengue no Brasil nos anos de 2021 a 2024. A metodologia inclui o pré-processamento, a análise exploratória dos dados e o testes das hipóteses, validando ou as invalidando.  Além disso, busca-se identificar padrões, correlações e observações relevantes por meio de estatística descritiva e visualização de dados feitas usando as principais ferramentas ensinadas no curso nativas do \emph{Python}, como \emph{pandas} e \emph{numpy}, além de ferramentas de plotagem como \emph{matplotlib}, \emph{seaborn} e \emph{streamlit}. Por fim, o controle de versionamento foi realizado por meio de \emph{git} e \emph{git-flow}, proporcionando um melhor gerenciamento, organização e estruturação do estudo.
-
-\vspace{0.5cm}
-
-\noindent\textbf{Palavras-chave}: Dengue; Python; análise de dados
+\noindent \textbf{Palavras-chave:} Dengue; Python; análise de dados.
 
 \section{Introdução}
-O trabalho propõe a escolha de um dataset, a partir do qual devem ser feitos o levantamento de perguntas e hipóteses sobre a base de dados. Após uma análise criteriosa de diversas fontes de dados, foi selecionado o dataset disponibilizado pelo Sistema de Informação de Agravos de Notificação (SINAN)\footnote{Pode ser encontrado em: \url{https://www.kaggle.com/datasets/henriquerezermosqur/dados-sus-sinan-dengue-2021-2024}}, referente aos casos de dengue. Com base nesse conjunto de dados, foram formuladas cinco hipóteses principais para guiar o estudo e permitir a exploração de padrões e considerações relevantes:
 
-\begin{itemize}
-    \item Quais são os conjuntos de sintomas principais que levaram ao óbito/internação?
-    \item Casos de dengue seguem uma distribuição normal com relação à data do início dos sintomas (ou seja, tem alguma relação com temperatura ou estação)? Qual a distribuição dos casos totais e a proporção de mortes por dengue em cada unidade da federação?
-    \item Existe alguma relação entre os exames e os sintomas (por exemplo, há tendência de se fazer exame X dependendo dos sintomas)? 
-    \item Pessoas em ocupações relacionadas à zona rural contrairam dengue em seu trabalho?
-    \item Nos períodos de Covid-19, houve alguma mudança em relação à quantidade de pessoas diagnosticadas com dengue? Além disso, nesses períodos, o tempo de demora entre a entrada no hospital e a hora do exame aumentou?
-\end{itemize}
+Atualmente, há diversos conjuntos de dados relacionados à saúde disponíveis na Internet, abordando uma ampla gama de informações, como doenças, tratamentos, vacinas, hospitais, entre outros. O conjunto de dados "\textit{DADOS SUS SINAN DENGUE (2021-2024)}" oferece uma base concisa com informações sobre os casos de dengue registrados no Sistema Único de Saúde (SUS) entre 2021 e 2024 no Brasil. Esse dataset se configura como uma valiosa fonte para investigar as correlações entre diferentes variáveis, como tipos de doenças, datas de entrada e saída, e características dos pacientes.
 
-Com base nas hipóteses propostas, a próxima etapa consiste na verificação por meio de uma análise crítica e detalhada dos dados. Essa abordagem visa garantir a precisão dos resultados e a solidez das interpretações, possibilitando uma compreensão aprofundada dos padrões e dinâmicas dos casos de dengue no Brasil. Especial atenção será dada às variações observadas durante o contexto pandêmico da COVID-19, bem como às áreas rurais, que apresentam características epidemiológicas distintas.
+Compreender as relações entre essas variáveis pode gerar insights importantes para hospitais, clínicas e até mesmo para os próprios pacientes, auxiliando na tomada de decisões estratégicas e na identificação de padrões relacionados à doença em questão. Por exemplo, seria possível identificar se existe algum sintoma principal que se correlaciona com o agravamento da doença ou óbito? Alguns sintomas podem estar associados à faixa etária dos pacientes? E, ainda, qual seria a influência da pandemia de Covid-19 no aumento ou diminuição dos casos de dengue?
 
-\clearpage
+O objetivo deste estudo é realizar uma análise de associação, e não de causalidade, entre os fatores presentes no conjunto de dados mencionado. O artigo segue a seguinte estrutura: na seção 2, é apresentada a metodologia utilizada, com uma descrição detalhada do dataset e das técnicas de manipulação de dados aplicadas. Na seção 3, são discutidos os resultados obtidos com a análise das relações entre as variáveis, seguidos por uma reflexão sobre os achados e possíveis direções para estudos mais aprofundados. Por fim, a seção 4 encerra o artigo com uma conclusão que destaca as limitações do estudo e propõe sugestões para futuras pesquisas.
 
-\section{Metodologia}
-O grupo optou por utilizar uma base de dados disponibilizado pelo SINAN que abrange casos de dengue em todo o território brasileiro. As análises foram realizadas na lingugaem de programação \emph{Python}, manuseando bibliotecas externas como Numpy, Pandas, Seaborn, Matplotlib e Geopandas, além de bibliotecas \emph{built-in} como os e sys.
+\section{Desenvolvimento}
+A base de dados disponibilizada gratuitamente no "\textit{DADOS SUS SINAN DENGUE (2021-2024)}" \cite{henrique2023} contém uma ampla gama de informações sobre os casos de dengue registrados em todo o Brasil. As principais variáveis incluem características dos pacientes, datas das ocorrências e uma variedade de sintomas associados à doença. As análises foram conduzidas na linguagem de programação \emph{Python}, utilizando bibliotecas externas como Numpy, Pandas, Seaborn, Matplotlib e Geopandas, além de bibliotecas \emph{built-in} como os e sys.
 
-Para conduzir a análise exploratória dos dados coletados, foram aplicados conceitos de estatistíca descritiva\footnote{BUSSAB, Wilton de Oliveira; MORETTIN, Pedro Alberto. Estatística básica. 9. ed. São Paulo: Saraiva, 2017} tais como coeficiente de contingência, correlação e covariância, permitindo uma melhor compreensão das relações entre as variáveis envolvidas.
-
-Dessa forma, a partir de tais análises, as hipóteses seriam validadas ou refutadas, auxiliando assim no aprofundadmento do estudo das causalidades da dengue em espaço brasileiro.
-
-
-\section{Objetivos}
+Para a análise exploratória dos dados, foram aplicados conceitos de estatística descritiva\footnote{BUSSAB, Wilton de Oliveira; MORETTIN, Pedro Alberto. Estatística básica. 9. ed. São Paulo: Saraiva, 2017}, como coeficiente de contingência, correlação e covariância, para explorar as relações entre as variáveis. Esses procedimentos possibilitaram uma compreensão mais aprofundada das interações entre os diferentes fatores e ajudaram na validação ou refutação das hipóteses formuladas.
 
 O estudo tem como objetivos analisar os casos de dengue e compreender sua distribuição geral no cenário brasileiro, averiguar a sua correlação com o período pandêmico e fomentar a pesquisa no âmbito da prevenção da doença, ambrangendo tecnologias, análises de dados e identificação de padrões para a melhora do bem-estar da população brasileira e, por conseguinte, as populações afetadas pela enfermidade.
 
 Espera-se que este estudo contribua de forma significativa para o avanço do conhecimento científico sobre a dengue, fornecendo abordagens relevantes para a formulação de políticas públicas mais eficazes e para o aprimoramento das estratégias de controle e prevenção da doença.
-
-\section{Desenvolvimento}
+\\
+\section{RESULTADOS E DISCUSSÕES}
 
 Como parte principal do artigo, o desenvolvimento enfatizará a legitimação das teorias propostas na introdução, buscando um entendimento completo da base de dados escolhida.
 
+
+%%%%%%%%% Hipótese 1 %%%%%%%%%
 \subsection{Hipótese 1}
 \emph{"Quais são os conjuntos de sintomas que mais levam à internação ou óbito do paciente?"}
 
@@ -82,16 +160,13 @@ Sabe-se que a dengue é uma doença caracterizada por uma ampla gama de sintomas
 Foram levados em conta vários sintomas, sendo os principais deles :
 \begin{itemize}
     - Febre Alta : reação de defesa do organismo, caracterizada pela elevação da temperatura corporal entre 39 a 40 graus celsius;\\
-    - Mialgia : Dores musculares intensas; \\
-    - Dor de Cabeça : Dor intensa na região frontal;\\
+    - Mialgia : dores musculares intensas; \\
+    - Dor de Cabeça : dor intensa na região frontal;\\
     - Hipertensão : niveis elevados de pressão arterial;\\ 
     - Naúsea : enjôo seguido de fraqueza e falta de apetite;\\
     - Vômito : quadros de vômitos persistentes e dores aabdominais;\\
     - Renal : prejudicação do sistema renal do indivíduo.\\
-\end{itemize}
-
-O cerne da questão está na forma de analizar os dados disponíveis: "como realizá-la?". Para respondê-la, podemos então olhar para os pacientes que obtiverem como resultado final o óbito e achar a razão óbito/ocorrência para cada sintoma. 
-
+\end{itemize} 
 Aqui está a tabela dos sintomas ordenada pela razão de óbito:
 
 \begin{table}[H]
@@ -126,163 +201,226 @@ Aqui está a tabela dos sintomas ordenada pela razão de óbito:
 \begin{table}[H]
     \centering
     \caption{Dados de Sintomas e Razão de Óbito - Parte 2}
-    \begin{tabular}{@{}lccc@{}}
-        \toprule
-        \textbf{Conjunto de Sintomas} & \textbf{Óbitos} & \textbf{Ocorrências} & \textbf{Razão \%} \\ 
-        \midrule
-        Conjuntivite | Hematológico & 7 & 46 & 15.22 \\
-        Dor nas Costas | Hematológico & 17 & 117 & 14.53 \\
-        Artralgia | Hematológico & 16 & 108 & 14.81 \\
-        Dor nas Costas | Renal & 19 & 169 & 11.24 \\
-        Renal | Hipertensão & 45 & 417 & 10.79 \\
-        Vômito | Renal & 28 & 273 & 10.26 \\
-        Exantema | Renal & 7 & 70 & 10.00 \\
-        Petequias | Renal & 6 & 61 & 9.84 \\
-        Vômito | Hematológico & 20 & 209 & 9.57 \\
-        Cefaleia | Hematológico & 31 & 329 & 9.42 \\
-        Febre | Renal & 48 & 517 & 9.28 \\
-        Artrite | Renal & 6 & 64 & 9.38 \\
-        Mialgia | Renal & 44 & 483 & 9.11 \\
-        Cefaleia | Renal & 33 & 363 & 9.09 \\
-        Conjuntivite | Hepatopatia & 3 & 34 & 8.82 \\
-        Dor Retro | Renal & 12 & 137 & 8.76 \\
-        Febre | Hematológico & 39 & 447 & 8.72 \\
-        Petequias | Hepatopatia & 5 & 62 & 8.06 \\
-        Mialgia | Hematológico & 30 & 379 & 7.92 \\
-        Náusea | Renal & 27 & 345 & 7.83 \\
-        Hematológico | Hipertensão & 14 & 185 & 7.57 \\
-        Náusea | Hematológico & 19 & 259 & 7.34 \\
-        Artralgia | Renal & 8 & 110 & 7.27 \\
-        \bottomrule
-    \end{tabular}
+    % Início do redimensionamento
+    \resizebox{0.7\textwidth}{!}{ % Redimensiona para caber na largura do texto
+        \begin{tabular}{@{}lccc@{}}
+            \toprule
+            \textbf{Conjunto de Sintomas} & \textbf{Óbitos} & \textbf{Ocorrências} & \textbf{Razão \%} \\ 
+            \midrule
+            Conjuntivite | Hematológico & 7 & 46 & 15.22 \\
+            Dor nas Costas | Hematológico & 17 & 117 & 14.53 \\
+            Artralgia | Hematológico & 16 & 108 & 14.81 \\
+            Dor nas Costas | Renal & 19 & 169 & 11.24 \\
+            Renal | Hipertensão & 45 & 417 & 10.79 \\
+            Vômito | Renal & 28 & 273 & 10.26 \\
+            Exantema | Renal & 7 & 70 & 10.00 \\
+            Petequias | Renal & 6 & 61 & 9.84 \\
+            Vômito | Hematológico & 20 & 209 & 9.57 \\
+            Cefaleia | Hematológico & 31 & 329 & 9.42 \\
+            Febre | Renal & 48 & 517 & 9.28 \\
+            Artrite | Renal & 6 & 64 & 9.38 \\
+            Mialgia | Renal & 44 & 483 & 9.11 \\
+            Cefaleia | Renal & 33 & 363 & 9.09 \\
+            Conjuntivite | Hepatopatia & 3 & 34 & 8.82 \\
+            Dor Retro | Renal & 12 & 137 & 8.76 \\
+            Febre | Hematológico & 39 & 447 & 8.72 \\
+            Petequias | Hepatopatia & 5 & 62 & 8.06 \\
+            Mialgia | Hematológico & 30 & 379 & 7.92 \\
+            Náusea | Renal & 27 & 345 & 7.83 \\
+            Hematológico | Hipertensão & 14 & 185 & 7.57 \\
+            Náusea | Hematológico & 19 & 259 & 7.34 \\
+            Artralgia | Renal & 8 & 110 & 7.27 \\
+            \bottomrule
+        \end{tabular}
+    } % Fim do redimensionamento
     \label{tab:symptom_data_2}
 \end{table}
 
+Baseando-se nessa limitada base de dados, poderíamos supor a possível existência de alguns conjuntos de doenças que estariam correlacionados a internação ou óbito do paciente. Porém, se percebe que, para que uma análise correta fosse feita, seriam necessários dados que nos levassem a conhecer o período em que certo paciente apresentou um sintoma em específico. Aqui listamos alguns pontos importantes :
 
-
-Percebe-se que o número de óbitos não indica uma alta mortalidade (coluna razão), pois um sintoma mortal pode ser mais raro do que um com efeitos mais amenos. Logo, ao realizar a análise da última coluna, podemos notar que os sintômas renais, hematológicos e hipertensão possuem uma alta taxa de mortalidade quando comparados com os outros sintomas individualmente. Já quando tomamos conjuntos dois a dois, conjuntivite e hematológicos acabam ficando em primeiro lugar.
-
-Notamos que os sintomas de febre, mialgia e cefaleia são os que mais aparecem em indivíduos que sofreram a hospitalização. Logo, apesar de terem uma alta incidência nos infectados, não parecem agravar tanto a situação deles.
-
-Os resultados obtidos desta parte podem ser usados para avaliar a urgência de tratamento de um paciente com base em seus sintomas. 
-
-
-
-\subsection{Hipótese 2}
-\emph{"Casos de dengue seguem uma distribuição normal com relação a data do início dos sintomas (ou seja, tem alguma relação com temperatura ou estação)? Qual a distribuição do total de casos e da taxa de mortalidade por estado?"}
-
-\\\\\
-Conhecer as distribuições dos casos totais de dengue por ano divididos por mês é de suma importância para a compreensão do estudo, pois dessa forma temos uma noção geral dos períodos de maior volume dos casos de dengue.
-
-Além disso, é intrínseco conhecer quais regiões brasileiras sofrem com voluptuosas ocorrências da doença e quais têm uma maior proporção de óbitos.
-
-Para analisar os dados de todos os anos (2021 a 2024) com relação à data do início dos sintomas de cada caso relatado na base principal, pode-se realizar uma exibição de um histograma juntamente com sua linha de distribuição (\emph{kdeplot}).
-
-Ao fazer tais gráficos, tem-se como resultado:
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/By month total.png}
-    \caption{Casos de dengue 2021-2024 (divido por mês)}
-    \label{fig:by_month_total}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/By period (detailed) total.png}
-    \caption{Casos de dengue 2021-2024 (divido por período)}
-    \label{fig:by_period_total}
-\end{figure}
-
-Portanto, observa-se que no período de março (mês 3) a maio (mês 5), tem-se um pico no número de casos de dengue. Isso deve-se pois neste período há um aumento nas temperaturas médias e se inicia um período de alta pluviosidade, condições essas que atraem o mosquito da dengue (\emph{Aeds aegypti}).
-
-Ademais, realizando a divisão dos casos totais de dengue e a proporção de mortes em cada unidade da federação, tem-se o seguinte:
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/Heatamp (uf) total.png}
-    \caption{Casos de dengue 2021-2024 (divido por estado)}
-    \label{fig:heatmap_total}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/Heatmap (uf) proportion.png}
-    \caption{Taxa de mortalidade 2021-2024 (divido por estado,)}
-    \label{fig:heatmap_proportion}
-\end{figure}
-
-Logo, a região Sudeste do Brasil sofre com um maior número de casos de dengue. No entanto, observando a proporção dos óbitos por cada estado, Amazonas, Rio Grande do Sul, Roraima, Maranhão e Alagoas têm taxas de mortalidade alarmantes.
-
-Essas disparidades podem ser atribuídas a uma combinação de fatores, como a qualidade do sistema de saúde, a disponibilidade de recursos para o tratamento da doença e as condições socioeconômicas das populações afetadas. A análise dessas proporções é importante para entender não apenas a epidemiologia da dengue, mas também para identificar as partições que necessitam de intervenções imediatas para mitigar a mortalidade e aprimorar a resposta ao surto da doença.
-
+\begin{flushleft}
+\begin{itemize}[nosep]
+    \item \textbf{Fator de Comorbidade:} Pacientes que apresentaram sintomas mais graves ou letais podem ter tido condições de saúde preexistentes (como diabetes ou hipertensão) que aumentaram o risco de morte. Esses fatores não estariam explicitamente representados apenas nos sintomas de dengue.
     
-\subsection{Hipótese 3}
-\emph{"Existe alguma relação entre os exames e os sintomas? (Como por exemplo, há tendência de se fazer exame X dependendo dos sintomas?)"}
+    \item \textbf{Confusão entre Sintomas e Gravidade da Doença:} Alguns sintomas mais graves podem aparecer em pacientes já em estágio avançado da doença, mas isso não implica que esses sintomas causam a morte. Na verdade, eles são apenas indicadores de que a doença já está em uma fase mais séria.
+    
+    \item \textbf{Variabilidade dos Sintomas e Tratamento:} Em muitos casos, sintomas que parecem mais letais podem estar associados a um atraso no tratamento ou na detecção da dengue, e não ao sintoma em si.
+    
+    \item \textbf{Problema de Multicolinearidade:} Alguns sintomas podem estar altamente correlacionados entre si, de modo que sintomas similares ou relacionados acabam ocorrendo juntos. Isso pode dar uma falsa impressão de que conjuntos específicos de sintomas são letais, quando, na verdade, são sintomas de uma mesma condição subjacente.
+    
+    \item \textbf{Viés de Seleção:} A análise pode ter um viés se apenas pacientes com sintomas graves foram incluídos na base de dados, ou se o número de pacientes recuperados é desproporcional. Isso afeta a validade dos sintomas identificados como “mais letais”.
+\end{itemize}
+\end{flushleft} 
 
-É notória a relevância dos exames para a classificação do tipo e tratamento da dengue, além disso, os possíveis sintomas que um enfermo pode possuir são variados. A partir disto, pode-se ter um questionamento natural acerca da relação entre ambas as variáveis, o que poderia indicar uma \textbf{tendência para um exame X} dependendo do \textbf{sintoma do paciente}.
+Para concluir essa análise, observa-se que uma investigação precisa sobre a letalidade dos sintomas de dengue requer dados mais completos e específicos, especialmente sobre a cronologia dos sintomas, histórico de comorbidades e contexto clínico de cada paciente. Em uma análise preliminar, apenas relacionar conjuntos de sintomas com a mortalidade pode levar a interpretações equivocadas, como evidenciado pelos pontos listados.
 
-Para verificar se existe tal grau de correlação entre os exames e os variados sintomas, devemos calcular o coeficiente de contingência\footnote{BUSSAB, Wilton de Oliveira; MORETTIN, Pedro Alberto. \textit{Estatística básica}. 9. ed. São Paulo: Saraiva, 2017, p. 76-79.}
- entre as variáveis (levando em conta a análise entre qualitativa e qualitativa). 
+Assim, conclui-se que uma análise mais robusta dependeria de um conjunto de dados mais abrangente e de técnicas estatísticas que permitam isolar os efeitos específicos de cada sintoma, levando em conta fatores como o estado de saúde prévio, o estágio da doença e a qualidade e o tempo de acesso ao tratamento. Dessa forma, poderíamos realmente identificar quais sintomas têm maior relevância na gravidade e letalidade da dengue, auxiliando médicos a focarem nos sinais mais críticos em pacientes com esse diagnóstico.
 
-\begin{table}[H]
+%%%%%%%%% Hipótese 2 %%%%%%%%%
+
+\subsection{Hipótese 2} 
+
+\emph{Existe um padrão temporal na ocorrência dos casos de dengue?A Região Norte do Brasil apresentou o maior número de casos de dengue? Em qual localidade a taxa de mortalidade é mais elevada?}
+
+Nessa hipótese, vamos analisar as colunas do dataset total (\textit{sinan\_dengue\_sample\_total.csv}) que dizem respeito ao início dos sintomas, à evolução do caso e à Unidade da Federação da notificação do paciente.
+
+Primeiramente, iniciaremos visualizando o padrão temporal dos casos de dengue de cada ano separadamente e compararemos tais resultados com o total. Para isso, separamos as ocorrências por mês e fizemos uma contagem e um histograma dos casos. Tais visualizações estão presentes nas figuras 1, 2, 3, 4 e 5. 
+
+\begin{figure}[h]
     \centering
-    \caption{Relação de cada sintoma com cada tipo de exame (coeficiente de contingência)}
-    \begin{tabular}{lcccc}
-        \toprule
-        & VIRAL & NS1 & PCR & SORO \\ \midrule
-        FEBRE & 0.008843341 & 0.07073418 & 0.032843042 & 0.08271805 \\
-        MIALGIA & 0.0042822515 & 0.08398538 & 0.014000116 & 0.07025483 \\
-        CEFALEIA & 0.005272286 & 0.07877089 & 0.014883856 & 0.056865178 \\
-        EXANTEMA & 0.0042484426 & 0.05956145 & 0.016023878 & 0.076502524 \\
-        VOMITO & 0.004277692 & 0.034537956 & 0.012604693 & 0.018651566 \\
-        NAUSEA & 0.0070605674 & 0.044488683 & 0.021723958 & 0.026098222 \\
-        DOR\_COSTAS & 0.009681542 & 0.0509112 & 0.018726623 & 0.03377638 \\
-        CONJUNTVIT & 0.0022646226 & 0.035315834 & 0.0046890657 & 0.014131442 \\
-        ARTRITE & 0.0026269057 & 0.058515746 & 0.0067389817 & 0.02034513 \\
-        ARTRALGIA & 0.010431411 & 0.09557537 & 0.008657125 & 0.027218288 \\
-        PETEQUIA\_N & 0.0052888487 & 0.040161483 & 0.012530279 & 0.072297454 \\
-        LEUCOPENIA & 0.0022609849 & 0.03913427 & 0.014333641 & 0.02951866 \\
-        DOR\_RETRO & 0.007177497 & 0.086504884 & 0.013840019 & 0.03679464 \\
-        DIABETES & 0.0048826593 & 0.0025543477 & 0.012184973 & 0.029313331 \\
-        HEMATOLOG & 0.010838465 & 0.004643966 & 0.009706085 & 0.0127382595 \\
-        HEPATOPAT & 0.006810185 & 0.0037634424 & 0.0077766073 & 0.013733226 \\
-        RENAL & 0.007903093 & 0.005708144 & 0.0077094375 & 0.013379313 \\
-        HIPERTENSA & 0.0052119107 & 0.014869342 & 0.021061204 & 0.041687407 \\
-        ACIDO\_PEPT & 0.011652101 & 0.006113838 & 0.008748848 & 0.010554269 \\
-        AUTO\_IMUNE & 0.0052067423 & 0.0035075748 & 0.0066045304 & 0.009411497 \\
-        \bottomrule
-    \end{tabular}
-    \label{tab:sintomas_resultados}
-\end{table}
+    % Primeira imagem
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/casos_dengue_2021.png}
+        \caption{Casos de Dengue 2021}
+        \label{fig:casos_2021}
+    \end{minipage}
+    \hfill % Espaço entre as imagens
+    % Segunda imagem
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/casos_dengue_2022.png}
+        \caption{Casos de Dengue 2022}
+        \label{fig:casos_2022}
+    \end{minipage}
+\end{figure}
 
-Portanto, de acordo com a tabela apresentada, pode-se observar que os coeficientes de contingência entre a maioria dos sintomas e dos exames são muito pequenos, ou seja, tem-se um grau mínimo de relação entre ambas variáveis.
-
-
-\subsection{Hipótese 4}
-\emph{"Pessoas em ocupações relacionadas a zona rural pegaram a dengue em seu trabalho?"}
-
-Tendo em vista a existência de uma coluna que registra a ocupação de cada paciente no dataframe principal, realizou-se uma análise que visava procurar indícios sobre o trabalho que cada indivíduo realizava e sua possível contração de dengue. 
-
-Uma das lógicas indagações é supor que pessoas que trabalham no meio rural possuem maior chance de contraírem a dengue, pois suas ocupações estão mais predispostas a exposição ao ar livre, maior presença de criadouros e consequentemente água parada, menos infraestrutura e saneamento, além de menos controle sobre os vetores de propagação da doença.
-
-Por essa ótica, seria interessante estabelecer uma relação entre a coluna de ocupação e a coluna que registra se o paciente adquiriu a doença em decorrência das condições/situação de trabalho, infelizmente, a interseção de valores válidos em ambas as colunas é nula e por isso, essa análise não poderá ser feita.
-
-Entretando, pode-se analisar a frequência que ocupações relacionadas ao meio rural aparecem no dataset e compará-las com outras ocupações gerais. Com este fim, foi feito um estudo seguindo estes passos: 
--  Obteve-se um dataset secundário retirado do site da CBO, Classificação Brasileira de Ocupações, que consta a relação do código contido no dataset principal e a descrição do seu título relacionando códigos em comum, pode-se filtrar por ocupações que contiam termos relacionados ao meio rural, como "agro", "pecuária" e "rural", para uma análise mais fidedigna, foram removidos cargos com alcunhas "gerente", "economista", "diretor" e outros, pois, em hipótese, essas funções não possuem as mesmas predisposições comuns dos outros e portanto não devem entrar nas observações. 
-- Segmentando em dois conjuntos de dados, ocupações gerais e outros, realizamos cálculos para chegar na média de proporções de cada tipo de ocupação. Considerando a amostra que varia de 01/2021 até 07/2024, chegamos que a proporção das ocupações rurais é de aproximadamente 5 vezes maior que uma ocupação comum. 
-
-Após as análises feitas acima, evidencia-se um indício que o trabalho de cada indivíduo influencia na sua chance de contrair a dengue.
+\begin{figure}[h]
+    \centering
+    % Primeira imagem
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/casos_dengue_2023.png}
+        \caption{Casos de Dengue 2023}
+        \label{fig:casos_2023}
+    \end{minipage}
+    \hfill % Espaço entre as imagens
+    % Segunda imagem
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/casos_dengue_2024.png}
+        \caption{Casos de Dengue 2024}
+        \label{fig:casos_2024}
+    \end{minipage}
+\end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{images/plot_hp4.png}
-    \caption{Proporção dos casos por tipo de ocupação}
+    \includegraphics[width=0.95\linewidth]{images/casos_dengue_total.png}
+    \caption{Casos de Dengue total}
+    \label{fig:casos_total}
+\end{figure}
+
+\usepackage
+Portanto, podemos observar que existe um padrão temporal na ocorrência dos casos de dengue, em que os meses de março, abril e maio têm o maior pico das observações.
+
+Além disso, continuando o desenvolvimento da hipótese, fizemos uma contagem dos casos totais e dos óbitos por Unidade Federativa (calculando também a taxa de mortalidade, realizando o quociente entre o total de óbitos e o total de casos). As observações podem ser analisadas nas figuras \ref{fig:total_uf} e \ref{fig:mortalidade_uf}.
+
+\begin{figure}[h]
+    \centering
+    \begin{minipage}{0.48\textwidth} % Aumente para 0.45
+        \centering
+        \includegraphics[width=\linewidth]{images/geoplot_total.png}
+        \caption{Casos totais por Unidade Federativa}
+        \label{fig:total_uf}
+    \end{minipage}
+    \hfill % Garante espaço entre as imagens
+    \begin{minipage}{0.48\textwidth} % Aumente para 0.45
+        \centering
+        \includegraphics[width=\linewidth]{images/geoplot_mortalidade.png}
+        \caption{Taxa de Mortalidade por Unidade Federativa}
+        \label{fig:mortalidade_uf}
+    \end{minipage}
+\end{figure}
+
+Logo, podemos presumir que, de acordo com a base de dados limitada utilizada, a Região Sudeste (destaque para Minas Gerais e São Paulo) apresentou o maior número de casos de dengue. Contudo, observando a taxa de mortalidade, os estados Amazonas, Roraima, Maranhão, Sergipe e Rio Grande do Sul obtiveram a maior concentração de óbitos por casos registrados de dengue. Para uma conclusão mais precisa, careceríamos de uma base com uma maior veracidade e abrangência do conjunto de dados.
+
+\subsection{Hipótese 3}
+
+\emph{"Sintomas mais graves se manifestam em um público mais velho?"}
+
+Entender como os sintomas graves e leves afetam os pacientes de acordo com sua idade é de suma importância para tomada de decisões. Para realizar esta associação, primeiro foi feita uma separação dos sintomas registrados no dataset em classificações de acordo com sua periculosidade:
+\vspace{0.5cm}
+\\
+\textbf{Sintomas Graves}: Sintomas que, quando manifestados, já representam um quadro clínico delicado do paciente
+\begin{itemize}[nosep]
+    \item[-] Renais: Prejudicação do sistema renal do paciente;
+    \item[-] Hipertensão: Níveis de pressão arterial elevados;
+    \item[-] Hepatopatia: Alteração do funcionamento natural do fígado;
+    \item[-] Leucopenia: Diminuição no número de leucócitos (Glóbulos Brancos).
+\end{itemize}
+\vspace{0.5cm}
+\textbf{Sintomas Preocupantes}: Quando percebidos, podem não ser um alerta imediato, mas podem evoluir para um quadro clínico mais grave
+\begin{itemize}[nosep]
+    \item[-] Vomito: Se é um sintoma muito recorrente, o paciente pode sofrer de desitratações severas;
+    \item[-] Dor retroesternal: Sintoma incomum na dengue, pode representar um quadro mais grave da doença ou outras complicações não relacionadas à enfermidade;
+    \item[-] Artrite: Dores, inflamações e prejuízo funcional nas articulações podem indicar quadros avançados da doença, o que pode requerir atenção maior para o paciente.
+\end{itemize}
+\vspace{0.5cm}
+\textbf{Sintomas Comuns}: Normalmente, não representam uma futura ameaça, apenas em casos isolados
+\begin{itemize}[nosep]
+    \item[-] Febre: Reação defensiva comum do corpo a doenças;
+    \item[-] Petequia: Pequenas manchas ou pontos vermelhos na pele, geralmente não representam um quadro grave da doença;
+    \item[-] Mialgia: Dores musculares, são bem comuns em pacientes com dengue e não costumam representar uma ameaça futura;
+    \item[-] Cefaleia: Dores de cabeça, sintoma comum da dengue;
+    \item[-] Conjuntivite: Inflamação na conjuntiva, não representa uma ameaça grave ao estado de saúde do paciente;
+    \item[-] Enxantema: Erupções cultâneas, sintoma corriquieiro em casos de dengue e não costuma representar estado alarmante do paciente;
+    \item[-] Artralgia: Dores nas articulações corporais, tendem a não deixar sequelas após a recuperação do paciente;
+    \item[-] Náusea: Tonturas e incômodo na parte superior do abômen, acompanhado de falta de apetite, relacionado a dengue, não representa uma enfermidade maior.
+\end{itemize}
+
+Após obter a classificação de cada sintoma, cada paciente teve um rótulo associado, este variando de acordo com a gravidade dos sintomas registrados:
+\vspace{0.5cm}
+\\
+\textbf{CLASSIFICAÇÃO DOS SINTOMAS}
+\begin{itemize}[nosep]
+    \item[-] \textbf{Grave:} Se houve qualquer registro de um sintoma classificado como \emph{grave};
+    \item[-] \textbf{Preocupante:} Se o paciente não teve nenhum sintoma grave, mas foi registrado um sintoma classificado com \emph{preocupante};
+    \item[-] \textbf{Comum:} Caso o enfermo não tenha tido nenhum dos sintomas graves ou preocupantes, ou nenhum sintoma foi registrado
+\end{itemize}
+\vspace{0.5cm}
+\hspace{1cm}Feita a separação dos pacientes de acordo com a gravidade dos sintomas, foi feita a plotagem de um boxplot que relaciona a idade dos pacientes dentro de cada categoria de classificação.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/ages_per_symptom_classification.png}
+    \caption{Distribuição das idades por cada categoria de sintoma}
     \label{fig:occupation}
 \end{figure}
 
-    
+Vale ressaltar que os enfermos com registros de sintomas preocupantes ou graves, mesmo que houvesse evidência da ocorrência de sintomas leves, ainda receberam a classificação dos riscos mais periculosos. Essa regulação foi feita tendo em vista que os sintomas mais graves são acompanhados dos sintomas leves, o que poderia ocasionar numa imprecisão na hora de calcular a relação entre as variáveis.
+
+Analisando esse gráfico, conseguimos presumir, pela proximidade na distribuição de todas as categorias, que a gravidade do sintoma não tende a ser influenciada pela idade do paciente. Mas, para ter uma certeza, foi calculado o coeficiente R² para medir a correlação entre as duas variáveis.
+
+Após o deferimento dos cálculos, foi obtido o valor de \(\approx 0.03\%\)
+
+Esta porcentagem é um indicativo de \textbf{baixa relação} entre as variáveis, o que leva a conclusão de que, baseando-se nos dados disponíveis no dataset, e sabendo que o conjunto de dados é limitado e não abrange todos os casos e situações possíveis, os sintomas mais graves \textbf{possivelmente não} são influenciados diretamente pela idade do paciente. 
+
+\subsection{Hipótese 4}
+
+\emph{"Pessoas em ocupações relacionadas a zona rural têm maiores chances de contrair a doença?"}
+
+Para essa análise, tendo em vista a existência de uma coluna que registra a ocupação de cada paciente no dataframe principal, foram utilizados os indícios sobre o trabalho que cada indivíduo realizava e sua possível contração de dengue. 
+
+É sensato admitir que pessoas que trabalham no meio rural possuem maior chance de contraírem a dengue, pois suas ocupações estão mais predispostas a exposição ao ar livre, maior presença de criadouros e consequentemente água parada, menos infraestrutura e saneamento, além de menos controle sobre os vetores de propagação da doença.
+
+Com essas informações, pode-se analisar a frequência que ocupações relacionadas ao meio rural aparecem no dataset e compará-las com outras ocupações gerais. Com este fim, foi feito um estudo seguindo estes passos: 
+-  Obteve-se um dataset secundário retirado do site da CBO, Classificação Brasileira de Ocupações, que consta a relação do código contido no dataset principal e a descrição do seu título relacionando códigos em comum, auxiliando assim a associação por ocupações que continham termos relacionados ao meio rural, como "agro", "pecuária" e "rural".
+
+Para uma análise mais fidedigna, foram removidos cargos com alcunhas "gerente", "economista", "diretor" e outros, pois, em hipótese, essas funções não possuem as mesmas predisposições comuns de outras profissões e portanto não devem entrar nas observações. Segmentando em dois conjuntos de dados, ocupações gerais e outros, realizamos cálculos para chegar na média de proporções de cada tipo de ocupação. Considerando a amostra que varia de 01/2021 até 07/2024, chegamos que a proporção das ocupações rurais é de aproximadamente 5 vezes maior que uma ocupação comum. 
+
+Após as análises feitas acima, e, relembrando que as colunas do conjunto de dados utilizados no dataset não especifica exatamente o tipo de ocupação, e que foram feitas uma higienização dos dados para a realização da hipótese, evidencia-se um possível indício de que o trabalho de cada indivíduo influencia na sua chance de contrair a dengue, destacando-se a profissão de zona rural, tal qual mostrado no gráfico abaixo.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/plot_hp4.png}
+    \caption{Distribuição das idades por cada categoria de sintoma}
+    \label{fig:occupation}
+\end{figure}
+
+
 \subsection{Hipótese 5}
+
 \emph{"Nos períodos de covid, houve alguma mudança em relação à quantidade de pessoas diagnosticadas com dengue? Além disso, nesses períodos, o tempo de demora entre a entrada no hospital e a hora do exame aumentou?
 "}
 
@@ -294,6 +432,7 @@ Com esse propósito, foi calculada a tabela que relaciona ambos os períodos em 
 \begin{table}[H]
 \centering
 \caption{Comparação da diferença de dias entre a notificação da ocorrência até o encerramento do caso entre períodos }
+
 \begin{tabular}{@{}l S[table-format=4.2] S[table-format=4.2]@{}}
 \toprule
 \textbf{Métrica}          & \textbf{01/01/21 - 30/11/22} & \textbf{30/11/22 - 31/07/24} \\ \midrule
@@ -310,7 +449,7 @@ Média de Dias             & 34.24              & 32.00              \\ \bottomr
 \label{tab:comparison}
 \end{table} \\
 
-Após a análise das métricas calculadas, fica claro que o aumento repentino dos casos de Covid-19 não influência diretamente o gerenciamento dos casos de dengue, pois a mensuração entre os dois períodos não resultou numa variação significante de resultado, tome como exemplo os quartis, que apresentam uma diferença baixa, quando o apresentam.
+Após a análise das métricas calculadas, supõe-se que, de acordo com as datas disponíveis, não existe correlação entre os períodos pandêmicos pós-pandêmicos, pois a mensuração entre os dois períodos não resultou numa variação significante de resultado, tome como exemplo os quartis, que apresentam uma diferença baixa, quando o apresentam.
 
 Por outro lado, poderíamos supor uma relação entre o aumento do intervalo de tempo entre a notificação dos casos e a realização dos exames, o que poderia indicar uma correlação entre a pandemia de COVID-19 e o atraso na condução de exames de outras doenças. 
 
@@ -335,29 +474,15 @@ Média de Dias             & 22.43              & 23.60              \\ \bottomr
 \label{tab:comparison}
 \end{table} 
 
-A seguir da aferição dos dados, constata-se que, semelhante a tabela anterior, as diferenças das medidas calculadas não significam uma correlação válida o suficiente, visto que as diferenças são mínimas. Note, por exemplo, a pequena diferença entre o desvio padrão e a média, bem como outras estatísticas que se mostram equivalentes. 
+A seguir da aferição dos dados, constata-se que, pelas mesmas condições da limitações dos dados anterior, as diferenças das medidas calculadas não significam uma correlação válida o suficiente, visto que as diferenças são mínimas. Note, por exemplo, a pequena diferença entre o desvio padrão e a média, bem como outras estatísticas que se mostram equivalentes. 
 
-\section{Conclusão} 
+\section{Conclusão}
 
 
 Este estudo explorou a relação entre os casos de dengue no Brasil, seus impactos, sintomas e os fatores externos, como a pandemia de COVID-19 e as condições ocupacionais, no período de 2021 a 2024. A partir da análise de dados disponibilizados pelo SINAN, foi possível identificar padrões epidemiológicos e validar ou refutar hipóteses iniciais.
+Por fim, embora este estudo tenha gerado contribuições relevantes, é crucial reconhecer suas limitações. Entre elas estão a falta de especificidade em algumas colunas do dataset, a presença de colunas com dados ausentes, a compreensão insuficiente sobre o contexto de coleta dos dados escolhidos e outros déficits detalhados em cada hipótese analisada. Espera-se que estudos futuros possam investigar novos conjuntos de dados ou ampliar as análises, incorporando variáveis adicionais para promover uma compreensão mais profunda dos impactos dos casos de dengue no Brasil.
 
-Os resultados destacam que os sintomas mais associados a óbitos são aqueles relacionados a complicações renais e hematológicas, enquanto sintomas mais comuns como febre e mialgia não necessariamente indicam maior gravidade. Observou-se uma correlação clara entre o aumento da temperatura e o período de maior incidência de casos, com um pico de contaminação nos meses de março a maio.
 
-A análise também sugere que trabalhadores rurais têm uma probabilidade significativamente maior de contrair dengue, indicando a relevância de políticas públicas voltadas a essas populações. Além disso, a pandemia de COVID-19 não parece ter impactado suficientemente a gestão dos casos de dengue no Brasil
-
-Este trabalho contribui para o entendimento da dinâmica da dengue no Brasil, especialmente no contexto de crises sanitárias concomitantes, como a COVID-19. As descobertas reforçam a importância de estratégias de prevenção e controle mais eficazes, além de um planejamento mais robusto da rede de saúde pública, principalmente em regiões e grupos vulneráveis.
-
-\clearpage
-
-\section{Referências}
-\begin{itemize}
-    \item ASSOCIAÇÃO BRASILEIRA DE NORMAS TÉCNICAS. NBR 6022: artigo em publicação periódica científica impressa: apresentação. Rio de Janeiro, 2003.
-    \item TAFNER, Elisabeth Penzlien; SILVA, Everaldo da. Metodologia do Trabalho Acadêmico. Indaial: Ed. ASSELVI, 2008.
-    \item BUSSAB, Wilton de Oliveira; MORETTIN, Pedro Alberto. \textit{Estatística descritiva}. 9. ed. São Paulo: Saraiva, 2017.
-    \item HENRIQUE, Rezende Mosquer. \textit{Dados SUS SINAN Dengue 2021-2024}. Kaggle, 2023. Disponível em: \url{https://www.kaggle.com/datasets/henriquerezermosqur/dados-sus-sinan-dengue-2021-2024}. Acesso em: 12 out. 2024.
-    \item Climates to Travel. Climate of Brazil. Disponível em: \url{https://www.climatestotravel.com/climate/brazil#google_vignette}. Acesso em: 12 out. 2024.
-    \item Where and When. Climate of Brazil. Disponível em: \url{https://www.whereandwhen.net/when/south-america/brazil/}. Acesso em: 12 out. 2024.
-\end{itemize}
+\printbibliography[title={Referências}]
 
 \end{document}
